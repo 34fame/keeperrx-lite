@@ -6,7 +6,7 @@ import Public from '../Public'
 import Private from '../Private'
 
 const App = ({ history }) => {
-   const [cookies] = useCookies(['authenticated'])
+   const [cookies, setCookie, removeCookie] = useCookies(['authenticated'])
    const authenticated = cookies.authenticated ? true : false
 
    const propsPublic = { history }

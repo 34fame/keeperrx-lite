@@ -7,10 +7,9 @@ import HomeTemplate from './home-template'
 const HomePage = ({ actions, content, state }) => {
    const {
       handleLogout,
-      handleMainMenuClose,
-      handleMainMenuOpen,
-      handleProfileMenuClose,
-      handleProfileMenuOpen,
+      handleMenuClose,
+      handleMenuOpen,
+      handleMenuItemClick,
    } = actions
    const { anchorElMainMenu, anchorElProfileMenu } = state
 
@@ -23,10 +22,11 @@ const HomePage = ({ actions, content, state }) => {
                local_pharmacy
             </Icon>
          ),
+         name: 'drugs',
          textPrimary: 'Prescription Drugs',
          textSecondary: 'Search the National Library of Medicine',
-         onClick: () => alert('drugs'),
-         onClose: handleMainMenuClose,
+         onClick: () => handleMenuItemClick('drugs'),
+         onClose: () => handleMenuClose('main'),
       },
       {
          button: true,
@@ -36,10 +36,11 @@ const HomePage = ({ actions, content, state }) => {
                warning
             </Icon>
          ),
+         name: 'interactions',
          textPrimary: 'Drug Interactions',
          textSecondary: 'Discover drugs with negative interactions',
-         onClick: () => alert('interactions'),
-         onClose: handleMainMenuClose,
+         onClick: () => handleMenuItemClick('interactions'),
+         onClose: () => handleMenuClose('main'),
       },
       {
          button: true,
@@ -49,19 +50,21 @@ const HomePage = ({ actions, content, state }) => {
                notifications_active
             </Icon>
          ),
+         name: 'alerts',
          textPrimary: 'Public Alerts',
          textSecondary: 'FDA Adverse Events alerts',
-         onClick: () => alert('alerts'),
-         onClose: handleMainMenuClose,
+         onClick: () => handleMenuItemClick('alerts'),
+         onClose: () => handleMenuClose('main'),
       },
    ]
 
    const mainMenu = (
       <Menu
          anchorEl={anchorElMainMenu}
+         name="mainMenu"
          open={Boolean(anchorElMainMenu)}
          items={mainMenuItems}
-         onClose={handleMainMenuClose}
+         onClose={() => handleMenuClose('main')}
       />
    )
 
@@ -70,7 +73,7 @@ const HomePage = ({ actions, content, state }) => {
          name="mainMenuButton"
          icon={<Icon style={{ color: 'white' }}>menu</Icon>}
          open={Boolean(anchorElMainMenu)}
-         onClick={handleMainMenuOpen}
+         onClick={e => handleMenuOpen(e, 'main')}
       />
    )
 
@@ -86,7 +89,7 @@ const HomePage = ({ actions, content, state }) => {
          textPrimary: 'Logout',
          textSecondary: 'Force authentication on next use',
          onClick: handleLogout,
-         onClose: handleProfileMenuClose,
+         onClose: () => handleMenuClose('profile'),
       },
    ]
 
@@ -95,7 +98,7 @@ const HomePage = ({ actions, content, state }) => {
          anchorEl={anchorElProfileMenu}
          open={Boolean(anchorElProfileMenu)}
          items={profileMenuItems}
-         onClose={handleProfileMenuClose}
+         onClose={() => handleMenuClose('profile')}
       />
    )
 
@@ -104,7 +107,7 @@ const HomePage = ({ actions, content, state }) => {
          name="profileMenuButton"
          icon={<Icon style={{ color: 'white' }}>account_circle</Icon>}
          open={Boolean(anchorElProfileMenu)}
-         onClick={handleProfileMenuOpen}
+         onClick={e => handleMenuOpen(e, 'profile')}
       />
    )
 
@@ -120,10 +123,8 @@ const HomePage = ({ actions, content, state }) => {
    }
 
    const propsHomeTemplate = {
-      actions,
       content,
       menus,
-      state,
    }
 
    return <HomeTemplate {...propsHomeTemplate} />
@@ -132,15 +133,13 @@ const HomePage = ({ actions, content, state }) => {
 HomePage.propTypes = {
    actions: PropTypes.shape({
       handleLogout: PropTypes.func.isRequired,
-      handleMainMenuOpen: PropTypes.func.isRequired,
-      handleProfileMenuOpen: PropTypes.func.isRequired,
-      handleMainMenuClose: PropTypes.func.isRequired,
-      handleProfileMenuClose: PropTypes.func.isRequired,
+      handleMenuOpen: PropTypes.func.isRequired,
+      handleMenuClose: PropTypes.func.isRequired,
    }).isRequired,
    content: PropTypes.node,
    state: PropTypes.shape({
-      anchorElMainMenu: PropTypes.element,
-      anchorElProfileMenu: PropTypes.element,
+      anchorElMainMenu: PropTypes.node,
+      anchorElProfileMenu: PropTypes.node,
    }),
 }
 

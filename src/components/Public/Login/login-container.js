@@ -12,7 +12,7 @@ const Login = ({ history }) => {
    const [activeStep, setActiveStep] = useState(0)
    const [values, setValues] = useState('')
    const [showMessage, setShowMessage] = useState(false)
-   const [setCookie] = useCookies()
+   const [cookies, setCookie, removeCookie] = useCookies()
    const { routes } = constants
 
    const propsLoginPageMobile = {
@@ -54,7 +54,7 @@ const Login = ({ history }) => {
    }
 
    const handleLogin = () => {
-      setCookie('authenticated', true)
+      setCookie('authenticated', true, { path: '/' })
       history.push(routes.home)
    }
 

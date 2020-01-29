@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { CssBaseline, Grid, Typography } from '@34fame/ui-component-lib'
 
-const HomeTemplate = ({ actions, content, menus }) => {
+const HomeTemplate = ({ content, menus }) => {
    const { mainMenu, profileMenu } = menus
 
    return (
@@ -37,13 +37,6 @@ const HomeTemplate = ({ actions, content, menus }) => {
 }
 
 HomeTemplate.propTypes = {
-   actions: PropTypes.shape({
-      handleLogout: PropTypes.func.isRequired,
-      handleMainMenuOpen: PropTypes.func.isRequired,
-      handleProfileMenuOpen: PropTypes.func.isRequired,
-      handleMainMenuClose: PropTypes.func.isRequired,
-      handleProfileMenuClose: PropTypes.func.isRequired,
-   }).isRequired,
    content: PropTypes.node,
    menus: PropTypes.shape({
       mainMenu: PropTypes.shape({

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 
 import HomePage from './home-page'
 
@@ -7,37 +8,53 @@ import constants from '../../../constants'
 const Home = ({ history }) => {
    const [anchorElMainMenu, setAnchorElMainMenu] = useState(null)
    const [anchorElProfileMenu, setAnchorElProfileMenu] = useState(null)
+   const [activeMenu, setActiveMenu] = useState('home')
    const { routes } = constants
+
+   useEffect(() => {
+      console.log('home-container', 'activeMenu', activeMenu)
+   }, [activeMenu])
 
    const handleLogout = () => {
       console.log('handleLogout')
       history.push(routes.logout)
    }
 
-   const handleMainMenuOpen = e => {
+   const handleMenuOpen = (e, name) => {
       const { target } = e
-      setAnchorElMainMenu(target)
+      switch (name) {
+         case 'main':
+            setAnchorElMainMenu(target)
+            break
+         case 'profile':
+            setAnchorElProfileMenu(target)
+            break
+         default:
+      }
    }
 
-   const handleMainMenuClose = () => {
-      setAnchorElMainMenu(null)
+   const handleMenuClose = name => {
+      switch (name) {
+         case 'main':
+            setAnchorElMainMenu(null)
+            break
+         case 'profile':
+            setAnchorElProfileMenu(null)
+            break
+         default:
+      }
    }
 
-   const handleProfileMenuOpen = e => {
-      const { target } = e
-      setAnchorElProfileMenu(target)
-   }
-
-   const handleProfileMenuClose = () => {
-      setAnchorElProfileMenu(null)
+   const handleMenuItemClick = name => {
+      setActiveMenu(name)
+      handleMenuClose('main')
    }
 
    const actions = {
       handleLogout,
-      handleMainMenuClose,
-      handleProfileMenuClose,
-      handleMainMenuOpen,
-      handleProfileMenuOpen,
+      handleMenuClose,
+      handleMenuOpen,
+      handleMenuItemClick,
    }
 
    const content = (
@@ -55,6 +72,10 @@ const Home = ({ history }) => {
    }
 
    return <HomePage {...propsHomePage} />
+}
+
+Home.propTypes = {
+   history: PropTypes.object,
 }
 
 export default Home

@@ -5,9 +5,9 @@ import constants from '../../../constants'
 
 const Logout = ({ history }) => {
    const { routes } = constants
-   const [removeCookie] = useCookies()
+   const [cookies, setCookie, removeCookie] = useCookies(['authenticated'])
 
-   removeCookie('authenticated')
+   removeCookie('authenticated', { path: '/' })
    history.push(routes.root)
 
    return null
