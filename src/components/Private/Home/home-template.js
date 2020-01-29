@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CssBaseline, Grid, Typography } from '@34fame/ui-component-lib'
+import { CssBaseline, Box, Grid, Typography } from '@34fame/ui-component-lib'
 
 const HomeTemplate = ({ content, menus }) => {
    const { mainMenu, profileMenu } = menus
@@ -25,11 +25,7 @@ const HomeTemplate = ({ content, menus }) => {
             </Grid>
             <Grid item>{profileMenu.button}</Grid>
          </Grid>
-         <Grid container>
-            <Grid item style={{ padding: '16px' }}>
-               {content}
-            </Grid>
-         </Grid>
+         <Box style={{ paddingTop: '24px' }}>{content}</Box>
          {mainMenu.menu}
          {profileMenu.menu}
       </React.Fragment>

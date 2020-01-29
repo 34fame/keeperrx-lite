@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 import { Button, Icon, Menu } from '@34fame/ui-component-lib'
 
 import HomeTemplate from './home-template'
+import Drugs from '../Drugs'
 
-const HomePage = ({ actions, content, state }) => {
+const HomePage = ({ actions, history, state }) => {
    const {
       handleLogout,
       handleMenuClose,
       handleMenuOpen,
       handleMenuItemClick,
    } = actions
-   const { anchorElMainMenu, anchorElProfileMenu } = state
+   const { activeMenu, anchorElMainMenu, anchorElProfileMenu } = state
 
    const mainMenuItems = [
       {
@@ -121,6 +122,19 @@ const HomePage = ({ actions, content, state }) => {
          button: profileMenuButton,
       },
    }
+
+   const propsDrugs = { history }
+
+   const determineContent = () => {
+      switch (activeMenu) {
+         case 'drugs':
+            return <Drugs {...propsDrugs} />
+         default:
+            return <Drugs {...propsDrugs} />
+      }
+   }
+
+   const content = determineContent()
 
    const propsHomeTemplate = {
       content,

@@ -17,7 +17,7 @@ const PrivateRoutes = ({ history }) => {
       <Switch>
          <Route
             exact
-            path={routes.home}
+            path={routes.drugs}
             render={() => <Home {...propsHome} />}
          />
          <Route
@@ -25,7 +25,7 @@ const PrivateRoutes = ({ history }) => {
             path={routes.logout}
             render={() => <Logout {...propsLogout} />}
          />
-         <Redirect to={routes.home} />
+         <Redirect to={routes.drugs} />
       </Switch>
    )
 }

@@ -8,7 +8,7 @@ import constants from '../../../constants'
 const Home = ({ history }) => {
    const [anchorElMainMenu, setAnchorElMainMenu] = useState(null)
    const [anchorElProfileMenu, setAnchorElProfileMenu] = useState(null)
-   const [activeMenu, setActiveMenu] = useState('home')
+   const [activeMenu, setActiveMenu] = useState('drugs')
    const { routes } = constants
 
    useEffect(() => {
@@ -57,17 +57,11 @@ const Home = ({ history }) => {
       handleMenuItemClick,
    }
 
-   const content = (
-      <React.Fragment>
-         <p>Some content...</p>
-      </React.Fragment>
-   )
-
-   const state = { anchorElMainMenu, anchorElProfileMenu }
+   const state = { activeMenu, anchorElMainMenu, anchorElProfileMenu }
 
    const propsHomePage = {
       actions,
-      content,
+      history,
       state,
    }
 
