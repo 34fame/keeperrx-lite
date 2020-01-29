@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 8
+    commands: 
+      - echo Start deployment on `date`
+      - echo Starting install stage
+      - echo Installing Serverless...
+      - npm i -g serverless 
+      - echo Installing serverless-finch Plugin
+      - npm i serverless-finch
+  pre_build:
+    commands: 
+      - echo Starting pre_build stage
+      # - echo Setting up AWS credentials...
+      # - export AWS_ACCESS_KEY_ID=$ACCESS_KEY
+      # - export AWS_SECRET_ACCESS_KEY=$SECRET_KEY
+  build:
+    commands: 
+      - echo Starting build stage
+      - echo Building React project
+      - yarn build
+      - echo Deploying with Serverless Framework
+      - serverless client deploy --no-confirm -s $ENV_NAME
+  post_build:
+    commands:
+      - echo Starting post_build stage
+      - echo Successful deployment on `date`
