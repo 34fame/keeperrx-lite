@@ -3,16 +3,28 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import Home from './Home'
+import Logout from './Logout'
 
 import constants from '../../constants'
 
 const PrivateRoutes = ({ history }) => {
    const { routes } = constants
+
    const propsHome = { history }
+   const propsLogout = { history }
 
    return (
       <Switch>
-         <Route path={routes.home} render={() => <Home {...propsHome} />} />
+         <Route
+            exact
+            path={routes.home}
+            render={() => <Home {...propsHome} />}
+         />
+         <Route
+            exact
+            path={routes.logout}
+            render={() => <Logout {...propsLogout} />}
+         />
          <Redirect to={routes.home} />
       </Switch>
    )

@@ -1,13 +1,13 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import cookie from 'react-cookies'
+import { useCookies } from 'react-cookie'
 
 import Public from '../Public'
 import Private from '../Private'
 
 const App = ({ history }) => {
-   const session = cookie.loadAll()
-   const authenticated = session.authenticated ? true : false
+   const [cookies] = useCookies(['authenticated'])
+   const authenticated = cookies.authenticated ? true : false
 
    const propsPublic = { history }
    const propsPrivate = { history }

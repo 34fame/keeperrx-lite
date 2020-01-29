@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import cookie from 'react-cookies'
+import { useCookies } from 'react-cookie'
 import { Message } from '@34fame/ui-component-lib'
 
 import LoginPageMobile from './login-page-mobile'
@@ -12,6 +12,7 @@ const Login = ({ history }) => {
    const [activeStep, setActiveStep] = useState(0)
    const [values, setValues] = useState('')
    const [showMessage, setShowMessage] = useState(false)
+   const [setCookie] = useCookies()
    const { routes } = constants
 
    const propsLoginPageMobile = {
@@ -53,7 +54,7 @@ const Login = ({ history }) => {
    }
 
    const handleLogin = () => {
-      cookie.save('authenticated', true)
+      setCookie('authenticated', true)
       history.push(routes.home)
    }
 

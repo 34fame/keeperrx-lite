@@ -1,39 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CssBaseline, Box, Grid, Typography } from '@34fame/ui-component-lib'
+import { CssBaseline, Grid, Typography } from '@34fame/ui-component-lib'
 
 const HomeTemplate = ({ actions, content, menus }) => {
    const { mainMenu, profileMenu } = menus
 
-   console.log('home-template', 'mainMenu', mainMenu)
    return (
       <React.Fragment>
          <CssBaseline />
-         <Box>
-            <Grid
-               container
-               justify="space-between"
-               alignContent="center"
-               alignItems="center"
-               style={{ backgroundColor: '#3F51B5' }}
-            >
-               <Grid item>{mainMenu.button}</Grid>
-               <Grid item>
-                  <Typography variant="subtitle1">
-                     <span style={{ color: 'white' }}>
-                        KeeperRx{' '}
-                        <span style={{ fontStyle: 'italic' }}>Lite</span>
-                     </span>
-                  </Typography>
-               </Grid>
-               <Grid item>{profileMenu.button}</Grid>
+         <Grid
+            container
+            justify="space-between"
+            alignContent="center"
+            alignItems="center"
+            style={{ backgroundColor: '#3F51B5' }}
+         >
+            <Grid item>{mainMenu.button}</Grid>
+            <Grid item>
+               <Typography variant="subtitle1">
+                  <span style={{ color: 'white' }}>
+                     KeeperRx <span style={{ fontStyle: 'italic' }}>Lite</span>
+                  </span>
+               </Typography>
             </Grid>
-            <Grid container>
-               <Grid item style={{ padding: '16px' }}>
-                  {content}
-               </Grid>
+            <Grid item>{profileMenu.button}</Grid>
+         </Grid>
+         <Grid container>
+            <Grid item style={{ padding: '16px' }}>
+               {content}
             </Grid>
-         </Box>
+         </Grid>
+         {mainMenu.menu}
+         {profileMenu.menu}
       </React.Fragment>
    )
 }
@@ -41,17 +39,19 @@ const HomeTemplate = ({ actions, content, menus }) => {
 HomeTemplate.propTypes = {
    actions: PropTypes.shape({
       handleLogout: PropTypes.func.isRequired,
-      handleMenuOpen: PropTypes.func.isRequired,
-      handleMenuClose: PropTypes.func.isRequired,
+      handleMainMenuOpen: PropTypes.func.isRequired,
+      handleProfileMenuOpen: PropTypes.func.isRequired,
+      handleMainMenuClose: PropTypes.func.isRequired,
+      handleProfileMenuClose: PropTypes.func.isRequired,
    }).isRequired,
    content: PropTypes.node,
    menus: PropTypes.shape({
       mainMenu: PropTypes.shape({
-         items: PropTypes.array,
+         menu: PropTypes.element,
          button: PropTypes.element,
       }).isRequired,
       profileMenu: PropTypes.shape({
-         items: PropTypes.array,
+         menu: PropTypes.element,
          button: PropTypes.element,
       }).isRequired,
    }).isRequired,

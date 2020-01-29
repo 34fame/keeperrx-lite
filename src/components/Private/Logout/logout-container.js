@@ -1,23 +1,16 @@
 import React from 'react'
-import cookie from 'react-cookies'
-import { Message } from '@34fame/ui-component-lib'
+import { useCookies } from 'react-cookie'
 
 import constants from '../../../constants'
 
 const Logout = ({ history }) => {
    const { routes } = constants
+   const [removeCookie] = useCookies()
 
-   cookie.remove('authenticated')
+   removeCookie('authenticated')
    history.push(routes.root)
 
-   return (
-      <Message
-         severity="success"
-         message="Logging out..."
-         open
-         autoHideDuration={3000}
-      />
-   )
+   return null
 }
 
 export default Logout

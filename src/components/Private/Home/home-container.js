@@ -1,115 +1,43 @@
 import React, { useState } from 'react'
-import { Button, Icon } from '@34fame/ui-component-lib'
 
 import HomePage from './home-page'
-import Logout from '../Logout'
+
+import constants from '../../../constants'
 
 const Home = ({ history }) => {
-   const [anchorEl, setAnchorEl] = useState(null)
+   const [anchorElMainMenu, setAnchorElMainMenu] = useState(null)
+   const [anchorElProfileMenu, setAnchorElProfileMenu] = useState(null)
+   const { routes } = constants
 
-   const handleLogout = () => <Logout />
-
-   const handleMenuClose = e => {
-      const { target } = e
-      const { name } = target
-      setAnchorEl(delete anchorEl[name])
+   const handleLogout = () => {
+      console.log('handleLogout')
+      history.push(routes.logout)
    }
 
-   const handleMenuOpen = e => {
+   const handleMainMenuOpen = e => {
       const { target } = e
-      const { name } = target
-
-      setAnchorEl({
-         ...anchorEl,
-         [name]: target,
-      })
+      setAnchorElMainMenu(target)
    }
 
-   const mainMenuItems = [
-      {
-         button: true,
-         dense: true,
-         icon: (
-            <Icon size="large" color="primary">
-               local_pharmacy
-            </Icon>
-         ),
-         textPrimary: 'Prescription Drugs',
-         textSecondary: 'Search the National Library of Medicine',
-         onClick: () => alert('drugs'),
-      },
-      {
-         button: true,
-         dense: true,
-         icon: (
-            <Icon size="large" color="primary">
-               warning
-            </Icon>
-         ),
-         textPrimary: 'Drug Interactions',
-         textSecondary: 'Discover drugs with negative interactions',
-         onClick: () => alert('interactions'),
-      },
-      {
-         button: true,
-         dense: true,
-         icon: (
-            <Icon size="large" color="primary">
-               notifications_active
-            </Icon>
-         ),
-         textPrimary: 'Public Alerts',
-         textSecondary: 'FDA Adverse Events alerts',
-         onClick: () => alert('alerts'),
-      },
-   ]
+   const handleMainMenuClose = () => {
+      setAnchorElMainMenu(null)
+   }
 
-   const mainMenuButton = (
-      <Button
-         name="mainMenuButton"
-         icon={<Icon style={{ color: 'white' }}>menu</Icon>}
-         onClick={e => handleMenuOpen(e)}
-      />
-   )
+   const handleProfileMenuOpen = e => {
+      const { target } = e
+      setAnchorElProfileMenu(target)
+   }
 
-   const profileMenuItems = [
-      {
-         button: true,
-         dense: true,
-         icon: (
-            <Icon size="large" color="primary">
-               power_settings_new
-            </Icon>
-         ),
-         textPrimary: 'Logout',
-         textSecondary: 'Force authentication on next use',
-         onClick: () => handleLogout(),
-      },
-   ]
-
-   const profileMenuButton = (
-      <Button
-         name="profileMenuButton"
-         icon={<Icon style={{ color: 'white' }}>account_circle</Icon>}
-         onClick={e => handleMenuOpen(e)}
-      />
-   )
-
-   const menus = {
-      mainMenu: {
-         items: mainMenuItems,
-         button: mainMenuButton,
-      },
-      profileMenu: {
-         items: profileMenuItems,
-         button: profileMenuButton,
-      },
+   const handleProfileMenuClose = () => {
+      setAnchorElProfileMenu(null)
    }
 
    const actions = {
-      handleLogout: handleLogout,
-      handleMenuClose: handleMenuClose,
-      handleMenuOpen: handleMenuOpen,
+      handleLogout,
+      handleMainMenuClose,
+      handleProfileMenuClose,
+      handleMainMenuOpen,
+      handleProfileMenuOpen,
    }
 
    const content = (
@@ -118,10 +46,12 @@ const Home = ({ history }) => {
       </React.Fragment>
    )
 
+   const state = { anchorElMainMenu, anchorElProfileMenu }
+
    const propsHomePage = {
       actions,
       content,
-      menus,
+      state,
    }
 
    return <HomePage {...propsHomePage} />
