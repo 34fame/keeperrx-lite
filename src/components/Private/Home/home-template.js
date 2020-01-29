@@ -20,7 +20,10 @@ const HomeTemplate = ({ actions, content, menus }) => {
                <Grid item>{mainMenu.button}</Grid>
                <Grid item>
                   <Typography variant="subtitle1">
-                     <span style={{ color: 'white' }}>KeeperRx Lite</span>
+                     <span style={{ color: 'white' }}>
+                        KeeperRx{' '}
+                        <span style={{ fontStyle: 'italic' }}>Lite</span>
+                     </span>
                   </Typography>
                </Grid>
                <Grid item>{profileMenu.button}</Grid>
