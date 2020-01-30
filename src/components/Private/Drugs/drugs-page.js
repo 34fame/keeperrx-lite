@@ -8,6 +8,7 @@ import constants from '../../../constants'
 
 const DrugsPage = ({ actions, state }) => {
    const { drugs } = state
+   const { handleDrugsDelete } = actions
    const { baseUrl } = constants.services.aws.s3
    const { images } = constants
 
@@ -30,7 +31,11 @@ const DrugsPage = ({ actions, state }) => {
          drugItem.textSecondary = item.textSecondary
          drugItem.divider = true
          drugItem.secondaryAction = (
-            <Button color="default" icon={<Icon>more_vert</Icon>} />
+            <Button
+               color="secondary"
+               icon={<Icon>delete_forever</Icon>}
+               onClick={() => handleDrugsDelete(item.rxcui)}
+            />
          )
          return drugItem
       })

@@ -5,6 +5,7 @@
    "dependencies": {
       "@34fame/ui-component-lib": "^0.0.26",
       "firebase": "^7.7.0",
+      "lodash": "^4.17.15",
       "react": "^16.9.0",
       "react-cookie": "^4.0.3",
       "react-dom": "^16.9.0",

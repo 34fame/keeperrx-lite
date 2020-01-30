@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash/core'
 import { useCookies } from 'react-cookie'
 
 import DrugsPage from './drugs-page'
@@ -16,7 +17,7 @@ const Drugs = ({ actions, history, state }) => {
       history.push(routes.root)
    }
 
-   const [cookies] = useCookies(['drugs'])
+   const [cookies, setCookie] = useCookies(['drugs'])
    const [contentBarDisplayOption, setContentBarDisplayOption] = useState(
       'list'
    )
@@ -57,13 +58,25 @@ const Drugs = ({ actions, history, state }) => {
       setContentBarSearchTerm(value)
    }
 
-   const handleDrugsDelete = () => {}
+   const handleDrugsDelete = rxcui => {
+      let drugs = cookies.drugs
+      let result = _.filter(drugs, drug => {
+         return drug.rxcui !== rxcui
+      })
+
+      setCookie('drugs', result, { path: '/' })
+
+      handleDrugsGet(result)
+   }
 
    const handleDrugsDetail = () => {}
 
-   const handleDrugsGet = () => {
-      let drugs = cookies.drugs
-      if (drugs && Array.isArray(drugs)) {
+   const handleDrugsGet = drugs => {
+      if (!drugs) {
+         drugs = cookies.drugs
+      }
+      console.log('drugs-container', 'handleDrugsGet', 'drugs', drugs)
+      if (drugs && _.isArray(drugs)) {
          setDrugs(drugs)
          setDrugsFiltered(drugs)
       }
