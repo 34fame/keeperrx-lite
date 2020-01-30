@@ -4,15 +4,22 @@ import { Button, Icon, Menu } from '@34fame/ui-component-lib'
 
 import HomeTemplate from './home-template'
 import Drugs from '../Drugs'
+import DrugsAdd from '../Drugs/Add'
+import Interactions from '../Interactions'
 
 const HomePage = ({ actions, history, state }) => {
    const {
-      handleLogout,
+      handleLogoutClick,
       handleMenuClose,
       handleMenuOpen,
       handleMenuItemClick,
    } = actions
-   const { activeMenu, anchorElMainMenu, anchorElProfileMenu } = state
+   const {
+      activeMenu,
+      activeState,
+      anchorElMainMenu,
+      anchorElProfileMenu,
+   } = state
 
    const mainMenuItems = [
       {
@@ -89,7 +96,7 @@ const HomePage = ({ actions, history, state }) => {
          ),
          textPrimary: 'Logout',
          textSecondary: 'Force authentication on next use',
-         onClick: handleLogout,
+         onClick: handleLogoutClick,
          onClose: () => handleMenuClose('profile'),
       },
    ]
@@ -123,14 +130,22 @@ const HomePage = ({ actions, history, state }) => {
       },
    }
 
-   const propsDrugs = { history }
+   const propsDrugs = { actions, history, state }
+
+   const propsDrugsAdd = { actions, history, state }
+
+   const propsInteractions = { actions, history, state }
 
    const determineContent = () => {
       switch (activeMenu) {
          case 'drugs':
+            if (activeState === 'add') {
+               return <DrugsAdd {...propsDrugsAdd} />
+            }
             return <Drugs {...propsDrugs} />
+         case 'interactions':
+            return <Interactions {...propsInteractions} />
          default:
-            return <Drugs {...propsDrugs} />
       }
    }
 

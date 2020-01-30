@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import { Box, Button, Grid, Icon, Typography } from '@34fame/ui-component-lib'
 
 import { ContentBarTemplate } from '../../../templates'
 
 const DrugsTemplate = ({ actions, content, state }) => {
-   const { handleClickAddDrug, handleDrugsDetail, handleDrugsDelete } = actions
+   const { handleAddClick, handleDrugsDetail, handleDrugsDelete } = actions
 
    const propsContentBarTemplate = { actions, state }
 
@@ -35,13 +36,18 @@ const DrugsTemplate = ({ actions, content, state }) => {
                            icon={<Icon color="primary">add_circle</Icon>}
                            iconStart
                            variant="outlined"
-                           onClick={handleClickAddDrug}
+                           onClick={() => handleAddClick('drugs')}
                         >
                            Add a drug
                         </Button>
                      </Grid>
                   </Grid>
-                  <Grid container direction="column" alignContent="center">
+                  <Grid
+                     container
+                     direction="column"
+                     alignContent="center"
+                     spacing={3}
+                  >
                      <Grid item>{content}</Grid>
                   </Grid>
                </Box>

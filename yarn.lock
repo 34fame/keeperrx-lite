@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@34fame/ui-component-lib@^0.0.25":
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/@34fame/ui-component-lib/-/ui-component-lib-0.0.25.tgz#a21cbc9d6b9d305564fc55d88992161250b0165e"
-  integrity sha512-40iSK4v1JcSIDRBxUzqwcJKDYOaQjosup7khmv6sSFkoUY2QxpD9YAiejaQfJArB8tmKxQu8Zq0TPhkU2OL6lg==
+"@34fame/ui-component-lib@^0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@34fame/ui-component-lib/-/ui-component-lib-0.0.26.tgz#48a73fe281c272fa2a3e57f70d627924fc414a59"
+  integrity sha512-9hewZja362aucSC2ETFyeteeSXfyThDp21aMvLIJcxk9V5Gd4zYMDaG2Imp73jTob2liBpqr1xjtUxlNmRw9ag==
 
 "@babel/code-frame@7.5.5":
   version "7.5.5"

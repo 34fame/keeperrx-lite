@@ -22,6 +22,16 @@ const PrivateRoutes = ({ history }) => {
          />
          <Route
             exact
+            path={routes.drugs + routes.add}
+            render={() => <Home {...propsHome} />}
+         />
+         <Route
+            exact
+            path={routes.interactions}
+            render={() => <Home {...propsHome} />}
+         />
+         <Route
+            exact
             path={routes.logout}
             render={() => <Logout {...propsLogout} />}
          />

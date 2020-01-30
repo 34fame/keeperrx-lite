@@ -9,14 +9,15 @@ const Home = ({ history }) => {
    const [anchorElMainMenu, setAnchorElMainMenu] = useState(null)
    const [anchorElProfileMenu, setAnchorElProfileMenu] = useState(null)
    const [activeMenu, setActiveMenu] = useState('drugs')
+   const [activeState, setActiveState] = useState('get')
    const { routes } = constants
 
-   useEffect(() => {
-      console.log('home-container', 'activeMenu', activeMenu)
-   }, [activeMenu])
+   const handleAddClick = name => {
+      setActiveState('add')
+      history.push(routes[name] + routes.add)
+   }
 
-   const handleLogout = () => {
-      console.log('handleLogout')
+   const handleLogoutClick = () => {
       history.push(routes.logout)
    }
 
@@ -47,17 +48,26 @@ const Home = ({ history }) => {
 
    const handleMenuItemClick = name => {
       setActiveMenu(name)
+      setActiveState('get')
       handleMenuClose('main')
+      history.push(routes[name])
    }
 
    const actions = {
-      handleLogout,
+      handleAddClick,
+      handleLogoutClick,
       handleMenuClose,
       handleMenuOpen,
       handleMenuItemClick,
+      setActiveState,
    }
 
-   const state = { activeMenu, anchorElMainMenu, anchorElProfileMenu }
+   const state = {
+      activeMenu,
+      activeState,
+      anchorElMainMenu,
+      anchorElProfileMenu,
+   }
 
    const propsHomePage = {
       actions,

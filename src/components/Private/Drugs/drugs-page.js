@@ -1,20 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Empty, Icon, List } from '@34fame/ui-component-lib'
+import { Avatar, Button, Empty, Icon, List } from '@34fame/ui-component-lib'
 
 import DrugsTemplate from './drugs-template'
 
+import constants from '../../../constants'
+
 const DrugsPage = ({ actions, state }) => {
-   const { handleDrugsDelete } = actions
-   const { drugs, drugMenuItems } = state
+   const { drugs } = state
+   const { baseUrl } = constants.services.aws.s3
+   const { images } = constants
 
    let content = null
-
-   console.log('drugs-page', 'drugs', drugs)
 
    if (drugs.length > 0) {
       let drugItems = drugs.map(item => {
          let drugItem = {}
+         let avatar = <Avatar>{item.textPrimary}</Avatar>
+         if (images[item.rxcui]) {
+            avatar = (
+               <Avatar
+                  alt={item.textPrimary}
+                  src={baseUrl + images[item.rxcui]._120}
+               />
+            )
+         }
+         drugItem.avatar = avatar
          drugItem.textPrimary = item.textPrimary
          drugItem.textSecondary = item.textSecondary
          drugItem.divider = true
@@ -23,14 +34,12 @@ const DrugsPage = ({ actions, state }) => {
          )
          return drugItem
       })
-
-      content = <List items={drugItems} style={{ minWidth: '400px' }} />
+      content = <List items={drugItems} />
    } else {
       content = (
          <Empty
-            image="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
-            description="No Data"
-            descriptionVariant="caption"
+            description="You have no drugs saved.  Click ADD A DRUG to get started."
+            descriptionVariant="body2"
          />
       )
    }
