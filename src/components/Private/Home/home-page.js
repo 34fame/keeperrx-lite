@@ -6,6 +6,7 @@ import HomeTemplate from './home-template'
 import Drugs from '../Drugs'
 import DrugsAdd from '../Drugs/Add'
 import Interactions from '../Interactions'
+import AdverseEvents from '../AdverseEvents'
 
 const HomePage = ({ actions, history, state }) => {
    const {
@@ -58,10 +59,10 @@ const HomePage = ({ actions, history, state }) => {
                notifications_active
             </Icon>
          ),
-         name: 'alerts',
-         textPrimary: 'Public Alerts',
-         textSecondary: 'FDA Adverse Events alerts',
-         onClick: () => handleMenuItemClick('alerts'),
+         name: 'adverseEvents',
+         textPrimary: 'Adverse Events',
+         textSecondary: 'Data collected from FDA Averse Event Reporting System',
+         onClick: () => handleMenuItemClick('adverseEvents'),
          onClose: () => handleMenuClose('main'),
       },
    ]
@@ -136,6 +137,8 @@ const HomePage = ({ actions, history, state }) => {
 
    const propsInteractions = { actions, history, state }
 
+   const propsAdverseEvents = { actions, history, state }
+
    const determineContent = () => {
       switch (activeMenu) {
          case 'drugs':
@@ -145,6 +148,8 @@ const HomePage = ({ actions, history, state }) => {
             return <Drugs {...propsDrugs} />
          case 'interactions':
             return <Interactions {...propsInteractions} />
+         case 'adverseEvents':
+            return <AdverseEvents {...propsAdverseEvents} />
          default:
       }
    }

@@ -2,9 +2,9 @@ const constants = {
    routes: {
       root: '/',
       home: '/private/home',
-      drugs: '/private/home/drugs',
-      interactions: '/private/home/interactions',
-      alerts: '/private/home/alerts',
+      drugs: '/private/drugs',
+      interactions: '/private/interactions',
+      adverseEvents: '/private/adverse-events',
       logout: '/private/logout',
       login: '/public/login',
       add: '/add',
@@ -13,6 +13,23 @@ const constants = {
       aws: {
          s3: {
             baseUrl: 'https://34fame-keeperrx-lite.s3.amazonaws.com/rximage/',
+         },
+      },
+      openfda: {
+         adverseEventsInDateRange: {
+            endpoint:
+               'https://api.fda.gov/drug/event.json?search=receivedate:[%startYYYYMMDD%+TO+%endYYYYMMDD%]',
+            payload: { method: 'get', headers: { Accept: 'application/json' } },
+         },
+         adverseEventsByRxcui: {
+            endpoint:
+               'https://api.fda.gov/drug/event.json?search=patient.drug.openfda.rxcui.exact:%22%rxcui%%22',
+            payload: { method: 'get', headers: { Accept: 'application/json' } },
+         },
+         adverseEventsByRxcuiInDateRange: {
+            endpoint:
+               'https://api.fda.gov/drug/event.json?search=receivedate:[%startYYYYMMDD%+TO+%endYYYYMMDD%]+AND+patient.drug.openfda.rxcui.exact:%22%rxcui%%22',
+            payload: { method: 'get', headers: { Accept: 'application/json' } },
          },
       },
       rxnav: {
