@@ -53,4 +53,11 @@ const DrugsPage = ({ actions, state }) => {
    )
 }
 
+DrugsPage.propTypes = {
+   actions: PropTypes.object,
+   state: PropTypes.shape({
+      drugs: PropTypes.array,
+   }),
+}
+
 export default DrugsPage

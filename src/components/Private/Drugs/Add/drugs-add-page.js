@@ -9,4 +9,9 @@ const DrugsAdd = ({ actions, state }) => {
    return <DrugsAddTemplate {...propsDrugsAddTemplate} />
 }
 
+DrugsAdd.propTypes = {
+   actions: PropTypes.object,
+   state: PropTypes.object,
+}
+
 export default DrugsAdd

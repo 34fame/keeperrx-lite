@@ -12,7 +12,7 @@ const Login = ({ history }) => {
    const [activeStep, setActiveStep] = useState(0)
    const [values, setValues] = useState('')
    const [showMessage, setShowMessage] = useState(false)
-   const [cookies, setCookie, removeCookie] = useCookies()
+   const [cookies, setCookie] = useCookies()
    const { routes } = constants
 
    const propsLoginPageMobile = {

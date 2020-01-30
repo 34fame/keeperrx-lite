@@ -1,0 +1,12 @@
+GET https://rxnav.nlm.nih.gov/REST/spellingsuggestions?name=zol HTTP/1.1
+content-type: application/json
+
+###
+
+GET https://rxnav.nlm.nih.gov/REST/drugs?name=phentermine HTTP/1.1
+content-type: application/json
+
+###
+
+GET https://rxnav.nlm.nih.gov/REST/rxcui/1094109/allrelated HTTP/1.1
+content-type: application/json

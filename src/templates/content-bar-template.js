@@ -44,4 +44,9 @@ const ContentBarTemplate = ({ actions, state }) => {
    )
 }
 
+ContentBarTemplate.propTypes = {
+   actions: PropTypes.object,
+   state: PropTypes.object,
+}
+
 export default ContentBarTemplate

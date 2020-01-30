@@ -84,4 +84,9 @@ const DrugsAddTemplate = ({ actions, state }) => {
    )
 }
 
+DrugsAddTemplate.propTypes = {
+   actions: PropTypes.object,
+   state: PropTypes.object,
+}
+
 export default DrugsAddTemplate

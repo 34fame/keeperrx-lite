@@ -16,4 +16,9 @@ const InteractionsPage = ({ actions, state }) => {
    return <InteractionsTemplate {...propsInteractionsTemplate} />
 }
 
+InteractionsPage.propTypes = {
+   actions: PropTypes.object,
+   state: PropTypes.object,
+}
+
 export default InteractionsPage

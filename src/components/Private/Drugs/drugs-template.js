@@ -6,7 +6,7 @@ import { Box, Button, Grid, Icon, Typography } from '@34fame/ui-component-lib'
 import { ContentBarTemplate } from '../../../templates'
 
 const DrugsTemplate = ({ actions, content, state }) => {
-   const { handleAddClick, handleDrugsDetail, handleDrugsDelete } = actions
+   const { handleAddClick } = actions
 
    const propsContentBarTemplate = { actions, state }
 
@@ -55,6 +55,11 @@ const DrugsTemplate = ({ actions, content, state }) => {
          </Grid>
       </React.Fragment>
    )
+}
+
+DrugsTemplate.propTypes = {
+   actions: PropTypes.object,
+   state: PropTypes.object,
 }
 
 export default DrugsTemplate

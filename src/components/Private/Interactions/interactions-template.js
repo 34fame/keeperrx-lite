@@ -41,4 +41,9 @@ const InteractionsTemplate = ({ actions, state }) => {
    )
 }
 
+InteractionsTemplate.propTypes = {
+   actions: PropTypes.object,
+   state: PropTypes.object,
+}
+
 export default InteractionsTemplate
