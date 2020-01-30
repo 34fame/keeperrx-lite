@@ -11,6 +11,9 @@
 # production
 /build
 
+# REST Client requests
+/rest
+
 # misc
 .DS_Store
 .env.local
