@@ -35,7 +35,9 @@ const LoginTemplate = ({ title, input, actions, message = [] }) => {
                </Grid>
             </Grid>
             <Grid item>
-               <Typography variant="caption">34 Fame, LLC</Typography>
+               <Typography variant="caption">
+                  34 Fame, LLC - KeeperRx Lite {process.env.REACT_APP_VERSION}
+               </Typography>
             </Grid>
          </Grid>
       </React.Fragment>
