@@ -32,6 +32,11 @@ const PrivateRoutes = ({ history }) => {
          />
          <Route
             exact
+            path={routes.adverseEvents}
+            render={() => <Home {...propsHome} />}
+         />
+         <Route
+            exact
             path={routes.logout}
             render={() => <Logout {...propsLogout} />}
          />
