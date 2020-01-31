@@ -34,9 +34,7 @@ const InteractionsTemplate = ({ actions, state }) => {
                {interactions.nlmDisclaimer}
             </Grid>
          </Grid>
-         <Box>
-            <pre>{JSON.stringify(interactions, null, 3)}</pre>
-         </Box>
+         <Box>{JSON.stringify(interactions, null, 3)}</Box>
       </Box>
    )
 }
