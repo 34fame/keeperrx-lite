@@ -7,6 +7,7 @@ const constants = {
       adverseEvents: '/private/adverse-events',
       logout: '/private/logout',
       login: '/public/login',
+      loginRedirect: '/public/login-redirect',
       add: '/add',
    },
    services: {

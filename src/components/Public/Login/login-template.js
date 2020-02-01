@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Typography } from '@34fame/ui-component-lib'
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
+import { Box, Grid, Typography } from '@34fame/ui-component-lib'
 
-const LoginTemplate = ({ title, input, actions, message = [] }) => {
+const LoginTemplate = ({
+   firebase,
+   firebaseUIConfig,
+   title,
+   input,
+   actions,
+   message = [],
+}) => {
    return (
       <React.Fragment>
+         <StyledFirebaseAuth
+            uiConfig={firebaseUIConfig}
+            firebaseAuth={firebase}
+         />
+
          <Grid
             container
             direction="column"
@@ -21,6 +34,7 @@ const LoginTemplate = ({ title, input, actions, message = [] }) => {
                   spacing={4}
                >
                   <Grid item>{title}</Grid>
+                  <Grid item></Grid>
                   <Grid item>{input}</Grid>
                   <Grid item>
                      <Grid container direction="row" wrap="nowrap" spacing={2}>
