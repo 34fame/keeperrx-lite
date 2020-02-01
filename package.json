@@ -1,6 +1,6 @@
 {
    "name": "@34fame/keeperrx-lite",
-   "version": "0.0.2",
+   "version": "0.1.0",
    "private": true,
    "dependencies": {
       "@34fame/ui-component-lib": "^0.0.26",
