@@ -1,70 +1,46 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import Box from '@material-ui/core/Box'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import Paper from '@material-ui/core/Paper'
 
-const LoginTemplate = ({
-   firebase,
-   firebaseUIConfig,
-   title,
-   input,
-   actions,
-   message = [],
-}) => {
+const LoginTemplate = ({ state }) => {
+   const { footer, title, FacebookButton, GithubButton, GoogleButton } = state
+
    return (
       <React.Fragment>
-         <StyledFirebaseAuth
-            uiConfig={firebaseUIConfig}
-            firebaseAuth={firebase}
-         />
-
-         <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-            spacing={4}
-         >
-            <Grid item>
-               <Grid
-                  container
-                  direction="column"
-                  justify="center"
-                  alignItems="center"
-                  spacing={4}
-               >
-                  <Grid item>{title}</Grid>
-                  <Grid item></Grid>
-                  <Grid item>{input}</Grid>
-                  <Grid item>
-                     <Grid container direction="row" wrap="nowrap" spacing={2}>
-                        {actions.map((element, idx) => (
-                           <Grid key={idx} item>
-                              {element}
-                           </Grid>
-                        ))}
-                     </Grid>
-                  </Grid>
-                  <Grid item>{message}</Grid>
-               </Grid>
-            </Grid>
-            <Grid item>
-               <Typography variant="caption">
-                  34 Fame, LLC - KeeperRx Lite {process.env.REACT_APP_VERSION}
-               </Typography>
-            </Grid>
-         </Grid>
+         <Box mt="20%" mx="auto" width="700px" maxWidth="80%">
+            <Paper>
+               <Box pt={6} display="flex" justifyContent="center">
+                  {title}
+               </Box>
+               <Box pt={4} display="flex" justifyContent="center">
+                  {FacebookButton}
+               </Box>
+               <Box pt={4} display="flex" justifyContent="center">
+                  {GithubButton}
+               </Box>
+               <Box pt={4} pb={6} display="flex" justifyContent="center">
+                  {GoogleButton}
+               </Box>
+            </Paper>
+            <Box mt={2} display="flex" justifyContent="center">
+               {footer}
+            </Box>
+         </Box>
       </React.Fragment>
    )
 }
 
 LoginTemplate.propTypes = {
-   title: PropTypes.node.isRequired,
-   input: PropTypes.element.isRequired,
-   actions: PropTypes.arrayOf(PropTypes.node).isRequired,
-   message: PropTypes.node,
+   state: PropTypes.shape({
+      title: PropTypes.element.isRequired,
+      footer: PropTypes.element.isRequired,
+      FacebookButton: PropTypes.element.isRequired,
+      GithubButton: PropTypes.element.isRequired,
+      GoogleButton: PropTypes.element.isRequired,
+   }),
 }
 
 export default LoginTemplate

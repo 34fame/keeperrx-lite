@@ -5,7 +5,7 @@ import PublicRoutes from './public-routes'
 
 const Public = ({ history }) => {
    const propsPublicRoutes = {
-      history: history,
+      history,
    }
 
    return <PublicRoutes {...propsPublicRoutes} />

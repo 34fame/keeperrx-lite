@@ -13,30 +13,35 @@ import {
 import constants from '../../../constants'
 
 const Login = ({ history }) => {
-   const [cookies, setCookie, removeCookie] = useCookies()
+   const [cookies, setCookie, removeCookie] = useCookies('authenticating')
    const { routes } = constants
 
-   useEffect(() => {
-      firebaseAuth().onAuthStateChanged(session => {
-         if (session) {
-            initSession(session)
-         }
-      })
-   }, [])
-
-   const initSession = session => {
-      setCookie('session', session, { path: routes.root })
-   }
+   // useEffect(() => {
+   //    firebaseAuth().onAuthStateChanged(session => {
+   //       console.log(
+   //          'login-container',
+   //          'onAuthStateChanged',
+   //          'session',
+   //          session
+   //       )
+   //       if (session) {
+   //          initSession(session)
+   //       }
+   //    })
+   // }, [])
 
    const handleLoginWithFacebook = () => {
+      setCookie('authenticating', true, { path: '/' })
       firebaseAuth().signInWithRedirect(facebookProvider)
    }
 
    const handleLoginWithGithub = () => {
+      setCookie('authenticating', true, { path: '/' })
       firebaseAuth().signInWithRedirect(githubProvider)
    }
 
    const handleLoginWithGoogle = () => {
+      setCookie('authenticating', true, { path: '/' })
       firebaseAuth().signInWithRedirect(googleProvider)
    }
 
