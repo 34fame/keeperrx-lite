@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useCookies } from 'react-cookie'
 
 import LoginPage from './login-page'
@@ -10,25 +10,8 @@ import {
    googleProvider,
 } from '../../../services/firebase'
 
-import constants from '../../../constants'
-
 const Login = ({ history }) => {
-   const [cookies, setCookie, removeCookie] = useCookies('authenticating')
-   const { routes } = constants
-
-   // useEffect(() => {
-   //    firebaseAuth().onAuthStateChanged(session => {
-   //       console.log(
-   //          'login-container',
-   //          'onAuthStateChanged',
-   //          'session',
-   //          session
-   //       )
-   //       if (session) {
-   //          initSession(session)
-   //       }
-   //    })
-   // }, [])
+   const [cookies, setCookie] = useCookies('authenticating')
 
    const handleLoginWithFacebook = () => {
       setCookie('authenticating', true, { path: '/' })

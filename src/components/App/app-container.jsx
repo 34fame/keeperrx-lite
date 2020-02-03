@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 import { library } from '@fortawesome/fontawesome-svg-core'
