@@ -1,6 +1,6 @@
 {
    "name": "@34fame/keeperrx-lite",
-   "version": "0.0.1",
+   "version": "0.1.2",
    "private": true,
    "dependencies": {
       "@fortawesome/fontawesome-svg-core": "^1.2.26",
