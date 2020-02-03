@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { CookiesProvider } from 'react-cookie'
-import { CssBaseline } from '@34fame/ui-component-lib'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 import App from './components/App'
 import * as serviceWorker from './serviceWorker'
