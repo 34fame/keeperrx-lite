@@ -14,6 +14,9 @@
 # REST Client requests
 /rest
 
+# Firebase
+.firebase
+
 # misc
 .DS_Store
 .env
