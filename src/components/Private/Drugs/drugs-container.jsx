@@ -21,10 +21,11 @@ const Drugs = ({ actions, history, state }) => {
    const [
       contentToolbarDisplaySetting,
       setContentToolbarDisplaySetting,
-   ] = useState('list')
+   ] = useState('grid')
    const [contentToolbarSearchTerm, setContentToolbarSearchTerm] = useState('')
    const [drugs, setDrugs] = useState([])
    const [drugsFiltered, setDrugsFiltered] = useState([])
+   const [expanded, setExpanded] = useState(false)
 
    useEffect(() => {
       handleDrugsGet()
@@ -76,7 +77,6 @@ const Drugs = ({ actions, history, state }) => {
       if (!drugs) {
          drugs = cookies.drugs
       }
-      console.log('drugs-container', 'handleDrugsGet', 'drugs', drugs)
       if (drugs && _.isArray(drugs)) {
          setDrugs(drugs)
          setDrugsFiltered(drugs)
@@ -96,6 +96,7 @@ const Drugs = ({ actions, history, state }) => {
          contentToolbarDisplaySetting,
          contentToolbarSearchTerm,
          drugs: drugsFiltered.length > 0 ? drugsFiltered : drugs,
+         expanded,
       },
    }
 
