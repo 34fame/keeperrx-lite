@@ -94,14 +94,6 @@ const EnhancedTable = props => {
                            .map((interaction, index) => {
                               let tableRow = interaction.fullInteractionType.map(
                                  (interactionType, i) => {
-                                    console.log(
-                                       'interaction',
-                                       interaction.sourceName
-                                    )
-                                    console.log(
-                                       'interactionType',
-                                       interactionType
-                                    )
                                     let row = (
                                        <TableRow hover key={i}>
                                           <TableCell
