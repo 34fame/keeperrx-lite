@@ -24,12 +24,6 @@ const App = ({ history }) => {
 
    useEffect(() => {
       firebaseAuth().onAuthStateChanged(session => {
-         console.log(
-            'login-container',
-            'onAuthStateChanged',
-            'session',
-            session
-         )
          if (session) {
             initSession(session)
          }
@@ -39,10 +33,6 @@ const App = ({ history }) => {
          setCookie('authenticating', true, { path: '/' })
       }
    }, [authenticated])
-
-   useEffect(() => {
-      console.log('App', 'authenticating', authenticating)
-   }, [authenticating])
 
    const initSession = session => {
       setCookie('session', session, { path: routes.root })

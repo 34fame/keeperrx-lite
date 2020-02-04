@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 import { useCookies } from 'react-cookie'
 import DrugsAddPage from './drugs-add-page'
 
@@ -29,7 +30,6 @@ const DrugsAdd = ({ actions, history, state }) => {
 
    // fuzzySearch
    useEffect(() => {
-      console.log('useEffect', 'fuzzySearch', fuzzySearch)
       if (fuzzySearch.length === 0) {
          setFuzzySuggestions([])
          setNameSelected(true)
@@ -45,7 +45,6 @@ const DrugsAdd = ({ actions, history, state }) => {
    }, [fuzzySearch])
 
    const callFuzzySearch = async name => {
-      console.log('callFuzzySearch', 'name', name)
       setLoading(true)
       const endpoint = rxnav.fuzzySearch.endpoint.replace('%name%', name)
       let fuzzySearchResults = []
@@ -64,14 +63,12 @@ const DrugsAdd = ({ actions, history, state }) => {
 
    const handleFuzzySearchChange = e => {
       const { value } = e.target
-      console.log('handleFuzzySearchChange', 'value', value)
       setFuzzySearch(value)
       setNameSelected(false)
       setDrugConceptSelected(false)
    }
 
    const handleClickFuzzySuggestion = (e, value) => {
-      console.log('handleClickFuzzySuggestion', 'value', value)
       if (!value) {
          return
       }
@@ -83,7 +80,6 @@ const DrugsAdd = ({ actions, history, state }) => {
 
    // conceptSearch
    useEffect(() => {
-      console.log('useEffect', 'nameSelected', nameSelected)
       if (!nameSelected) {
          return
       }
@@ -105,7 +101,6 @@ const DrugsAdd = ({ actions, history, state }) => {
    }, [nameSelected])
 
    const callDrugConceptsSearch = async name => {
-      console.log('callDrugConceptsSearch', 'name', name)
       if (!name || name.length === 1) {
          return null
       }
@@ -115,42 +110,26 @@ const DrugsAdd = ({ actions, history, state }) => {
       await fetch(endpoint, rxnav.drugConceptSearch.payload)
          .then(response => response.json())
          .then(response => {
-            console.log(
-               'drugs-add-container',
-               'callDrugConceptsSearch',
-               'response',
-               response
-            )
             let conceptGroups = response.drugGroup.conceptGroup
             conceptGroups.map(group => {
-               console.log('group', group)
                let properties = []
                if (group.conceptProperties) {
                   properties = group.conceptProperties.map(property => {
-                     console.log('property', property)
                      drugConceptResults.push(property)
                      return property
                   })
                }
-               console.log('properties', properties)
             })
          })
          .catch(err => {
             console.error('callDrugConceptsSearch', 'error', err)
          })
 
-      console.log(
-         'drugs-add-container',
-         'callDrugConceptsSearch',
-         'drugConceptResults',
-         drugConceptResults
-      )
       return drugConceptResults
    }
 
    const handleDrugConceptChange = e => {
       const { value } = e.target
-      console.log('handleDrugConceptChange', 'value', value)
       setDrugConcept(value)
       setDrugConceptSelected(true)
    }
@@ -165,14 +144,19 @@ const DrugsAdd = ({ actions, history, state }) => {
    }
 
    const handleSave = () => {
-      let drug = {}
-      drug.rxcui = drugConcept.rxcui
-      drug.textPrimary = fuzzySearch
-      drug.textSecondary = drugConcept.name
-      drug.include = true
+      let newDrug = {
+         rxcui: drugConcept.rxcui,
+         textPrimary: fuzzySearch,
+         textSecondary: drugConcept.name,
+         include: true,
+      }
 
       let drugs = cookies.drugs ? cookies.drugs : []
-      drugs.push(drug)
+
+      // using filter (reject does falsy) to prevent duplicates
+      drugs = _.reject(drugs, { rxcui: newDrug.rxcui })
+
+      drugs.push(newDrug)
       drugs = sortObjectArray(drugs, 'textPrimary')
 
       setCookie('drugs', drugs, { path: '/' })
