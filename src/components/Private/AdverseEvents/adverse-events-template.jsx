@@ -6,7 +6,6 @@ import Grid from '@material-ui/core/Grid'
 const AdverseEventsTemplate = ({ actions, state }) => {
    const { drugs, adverseEvents } = state
 
-   console.log('adverse-events-template', 'adverseEvents', adverseEvents)
    return (
       <Box>
          <Grid container direction="column" alignContent="center" spacing={3}>

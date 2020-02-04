@@ -57,21 +57,18 @@ const DrugsAdd = ({ actions, state }) => {
          </ExpansionPanelSummary>
          <ExpansionPanelDetails>
             <Typography variant="body2" paragraph>
-               <p>
-                  Start typing the name of a drug (brand or generic) and a
-                  search of the National Library of Medicine will return the
-                  closest matching results.
-               </p>
-               <p>
-                  If you don't find a match either check your spelling or, if it
-                  isn't a prescribed drug, you can save it as an unlisted drug.
-               </p>
-               <p>
-                  {' '}
-                  If you find the drug you are looking for simply select it and
-                  then choose the specific drug and strength (known as a drug
-                  concept) from the drop down provided.
-               </p>
+               Start typing the name of a drug (brand or generic) and a search
+               of the National Library of Medicine will return the closest
+               matching results.
+            </Typography>
+            <Typography variant="body2" paragraph>
+               If you don't find a match either check your spelling or, if it
+               isn't a prescribed drug, you can save it as an unlisted drug.
+            </Typography>
+            <Typography variant="body2" paragraph>
+               If you find the drug you are looking for simply select it and
+               then choose the specific drug and strength (known as a drug
+               concept) from the drop down provided.
             </Typography>
          </ExpansionPanelDetails>
       </ExpansionPanel>
@@ -120,8 +117,10 @@ const DrugsAdd = ({ actions, state }) => {
          variant="outlined"
          onChange={handleDrugConceptChange}
       >
-         {drugConceptOptions.map(concept => (
-            <MenuItem value={concept.value}>{concept.name}</MenuItem>
+         {drugConceptOptions.map((concept, idx) => (
+            <MenuItem key={idx} value={concept.value}>
+               {concept.name}
+            </MenuItem>
          ))}
       </TextField>
    )

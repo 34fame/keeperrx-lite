@@ -36,12 +36,6 @@ const Interactions = ({ actions, history, state }) => {
             drugsObject[drug.rxcui].name = drug.textPrimary
             drugsObject[drug.rxcui].include = drug.include
          })
-         console.log(
-            'interactions-container',
-            'handleDrugsGet',
-            'drugsObject',
-            drugsObject
-         )
          setDrugs(drugsObject)
       }
    }
@@ -89,19 +83,7 @@ const Interactions = ({ actions, history, state }) => {
 
    const handleDrugsToggle = rxcui => {
       let drugsUpdated = drugs
-      console.log(
-         'interactions-container',
-         'handleDrugsToggle',
-         'drugsUpdated[rxcui] -- before',
-         drugsUpdated[rxcui]
-      )
       drugsUpdated[rxcui].include = !drugsUpdated[rxcui].include
-      console.log(
-         'interactions-container',
-         'handleDrugsToggle',
-         'drugsUpdated[rxcui] -- after',
-         drugsUpdated[rxcui]
-      )
       setDrugs(drugsUpdated)
 
       drugsUpdated = cookies.drugs
@@ -112,13 +94,6 @@ const Interactions = ({ actions, history, state }) => {
          }
       })
       setCookie('drugs', drugsUpdated, { path: '/' })
-
-      console.log(
-         'interactions-container',
-         'handleDrugsToggle',
-         'cookie-drugs',
-         cookies.drugs
-      )
 
       callGetInteractions()
    }

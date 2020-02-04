@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import AdverseEventsTemplate from './adverse-events-template'
 
 const AdverseEventsPage = ({ actions, state }) => {
-   console.log('adverse-events-page', 'state', state)
    const propsAdverseEventsTemplate = { actions, state }
 
    return <AdverseEventsTemplate {...propsAdverseEventsTemplate} />

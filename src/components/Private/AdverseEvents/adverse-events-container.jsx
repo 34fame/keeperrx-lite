@@ -38,24 +38,10 @@ const AdverseEvents = ({ actions, history, state }) => {
             .replace('%rxcui%', rxcui)
             .replace('%startYYYYMMDD%', '20190901')
             .replace('%endYYYYMMDD%', '20200101') + '&limit=99'
-      console.log(
-         'adverse-events-container',
-         'callGetAdverseEvents',
-         'endpoint',
-         endpoint
-      )
       let adverseEventsResult = {}
       await fetch(endpoint, openfda.adverseEventsByRxcui.payload)
          .then(response => response.json())
          .then(response => {
-            console.log(
-               'adverse-events-container',
-               'callGetAdverseEvents',
-               'fetch',
-               'response.results',
-               response
-            )
-
             adverseEventsResult.meta = response.meta
             if (!adverseEventsResult[rxcui]) {
                adverseEventsResult[rxcui] = []
@@ -63,25 +49,12 @@ const AdverseEvents = ({ actions, history, state }) => {
             response.results.map(event => {
                adverseEventsResult[rxcui].push(event)
             })
-            console.log(
-               'adverse-events-container',
-               'callGetAdverseEvents',
-               'fetch',
-               'adverseEventsResult',
-               adverseEventsResult
-            )
             return adverseEventsResult
          })
          .catch(err => {
             console.error('callGetAdverseEvents', 'error', err)
          })
 
-      console.log(
-         'adverse-events-container',
-         'callGetAdverseEvents',
-         'adverseEventsResults',
-         adverseEventsResult
-      )
       return adverseEventsResult
    }
 
@@ -98,12 +71,6 @@ const AdverseEvents = ({ actions, history, state }) => {
             adverseEventsResults[drug.rxcui] = adverseEventsResult[drug.rxcui]
             return
          })
-      )
-      console.log(
-         'adverse-events-container',
-         'getAdverseEvents',
-         'adverseEventsResults',
-         adverseEventsResults
       )
       setAdverseEvents(adverseEventsResults)
    }
