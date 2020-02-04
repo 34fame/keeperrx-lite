@@ -26,7 +26,7 @@ const DrugsTemplate = ({ actions, content, state }) => {
                </Grid>
             </Box>
          </Container>
-         <Container maxWidth="md">
+         <Container maxWidth="xl">
             {/* Drug List */}
             <Box>{content}</Box>
          </Container>

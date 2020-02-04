@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 const AppPage = open => {
    return (
-      <Backdrop open={open}>
+      <Backdrop open={open ? true : false}>
          <CircularProgress color="inherit" />
       </Backdrop>
    )

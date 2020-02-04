@@ -173,7 +173,7 @@ const DrugsAdd = ({ actions, history, state }) => {
 
       let drugs = cookies.drugs ? cookies.drugs : []
       drugs.push(drug)
-      drugs = sortObjectArray(drugs, 'drugs')
+      drugs = sortObjectArray(drugs, 'textPrimary')
 
       setCookie('drugs', drugs, { path: '/' })
       setActiveState('get')

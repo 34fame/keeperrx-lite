@@ -10,7 +10,6 @@ const Interactions = ({ actions, history, state }) => {
    const { routes, services } = constants
    const { rxnav } = services
 
-   const { setActiveState } = actions
    const { activeMenu, activeState } = state
    if (activeMenu !== 'interactions' || activeState !== 'get') {
       history.push(routes.root)
@@ -48,32 +47,35 @@ const Interactions = ({ actions, history, state }) => {
    }
 
    const callGetInteractions = async () => {
-      let drugList = ''
-      Object.keys(drugs).map(rxcui => {
-         if (drugs[rxcui].include) {
-            drugList =
-               drugList.length === 0 ? drugList + rxcui : drugList + '+' + rxcui
-         }
-      })
-      console.log(
-         'interactions-container',
-         'callGetInteractions',
-         'drugList',
-         drugList
-      )
+      let endpoint = ''
+      let payload = ''
 
-      const endpoint = rxnav.interactionsList.endpoint.replace(
-         '%list%',
-         drugList
-      )
-      console.log(
-         'interactions-container',
-         'callGetInteractions',
-         'endpoint',
-         endpoint
-      )
+      if (drugs.length === 0) {
+         return
+      }
+
+      if (drugs.length === 1) {
+         endpoint = rxnav.interaction.endpoint.replace(
+            '%rxcui%',
+            drugs[0].rxcui
+         )
+         payload = rxnav.interaction.payload
+      } else {
+         let drugList = ''
+         Object.keys(drugs).map(rxcui => {
+            if (drugs[rxcui].include) {
+               drugList =
+                  drugList.length === 0
+                     ? drugList + rxcui
+                     : drugList + '+' + rxcui
+            }
+         })
+         endpoint = rxnav.interactionsList.endpoint.replace('%list%', drugList)
+         payload = rxnav.interactionsList.payload
+      }
+
       let interactionsResult = {}
-      await fetch(endpoint, rxnav.interactionsList.payload)
+      await fetch(endpoint, payload)
          .then(response => response.json())
          .then(response => {
             interactionsResult = response
@@ -81,18 +83,10 @@ const Interactions = ({ actions, history, state }) => {
          .catch(err => {
             console.error('callGetInteractions', 'error', err)
          })
-      console.log(
-         'interactions-container',
-         'callGetInteractions',
-         'interactionsResult',
-         interactionsResult
-      )
+
       setInteractions(interactionsResult)
    }
 
-   //
-   // We can set it so that when only one drug is included we can do the single drug interaction instead
-   //
    const handleDrugsToggle = rxcui => {
       let drugsUpdated = drugs
       console.log(
@@ -137,11 +131,7 @@ const Interactions = ({ actions, history, state }) => {
       },
    }
 
-   return (
-      <React.Fragment>
-         <InteractionsPage {...propsInteractionsPage} />
-      </React.Fragment>
-   )
+   return <InteractionsPage {...propsInteractionsPage} />
 }
 
 export default Interactions
