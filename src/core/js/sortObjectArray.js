@@ -1,5 +1,4 @@
-const compareDrugs = (a, b) => {
-   const sortField = 'textPrimary'
+const compare = sortField => (a, b) => {
    const atest = a[sortField].toUpperCase()
    const btest = b[sortField].toUpperCase()
 
@@ -13,10 +12,8 @@ const compareDrugs = (a, b) => {
    return comparison
 }
 
-const sortObjectArray = (array, objectType) => {
-   if (objectType === 'drugs') {
-      array.sort(compareDrugs)
-   }
+const sortObjectArray = (array, sortField) => {
+   array.sort(compare(sortField))
    return array
 }
 

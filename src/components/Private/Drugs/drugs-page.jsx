@@ -155,7 +155,7 @@ const DrugsPage = ({ actions, state }) => {
             alignContent="flex-start"
          >
             {drugItems.map((item, idx) => (
-               <Box p={2}>
+               <Box key={idx} p={2}>
                   <Card className={classes.root}>
                      <CardHeader
                         avatar={item.avatar}

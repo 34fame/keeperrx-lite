@@ -43,6 +43,11 @@ const constants = {
             endpoint: 'https://rxnav.nlm.nih.gov/REST/drugs?name=%name%',
             payload: { method: 'get', headers: { Accept: 'application/json' } },
          },
+         interaction: {
+            endpoint:
+               'https://rxnav.nlm.nih.gov/REST/interaction/interaction?rxcui=%rxcui%',
+            payload: { method: 'get', headers: { Accept: 'application/json' } },
+         },
          interactionsList: {
             endpoint:
                'https://rxnav.nlm.nih.gov/REST/interaction/list?rxcuis=%list%',

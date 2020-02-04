@@ -1,3 +1,17 @@
-import sortObjectArray from './sortObjectArray'
+import {
+   EnhancedTable,
+   EnhancedTableHead,
+   EnhancedTableToolbar,
+} from './components'
 
-export { sortObjectArray }
+import { getSorting, sortDesc, sortObjectArray, sortStable } from './js'
+
+export {
+   EnhancedTable,
+   EnhancedTableHead,
+   EnhancedTableToolbar,
+   getSorting,
+   sortDesc,
+   sortObjectArray,
+   sortStable,
+}

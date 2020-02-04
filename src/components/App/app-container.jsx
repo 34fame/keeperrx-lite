@@ -50,7 +50,7 @@ const App = ({ history }) => {
    }
 
    if (cookies.authenticating) {
-      return <AppPage open={authenticating} />
+      return <AppPage open={authenticating ? true : false} />
    }
 
    if (authenticated) {
