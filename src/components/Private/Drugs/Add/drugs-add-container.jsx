@@ -112,9 +112,8 @@ const DrugsAdd = ({ actions, history, state }) => {
          .then(response => {
             let conceptGroups = response.drugGroup.conceptGroup
             conceptGroups.map(group => {
-               let properties = []
                if (group.conceptProperties) {
-                  properties = group.conceptProperties.map(property => {
+                  group.conceptProperties.map(property => {
                      drugConceptResults.push(property)
                      return property
                   })

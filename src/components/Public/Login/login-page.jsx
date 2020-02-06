@@ -1,7 +1,5 @@
 import React from 'react'
-import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

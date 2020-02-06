@@ -10,7 +10,7 @@ const DrugsAddTemplate = ({ state }) => {
       cancelButton,
       drugConceptSelector,
       fuzzySearchField,
-      pageInstructions,
+      // pageInstructions,
       pageTitle,
       saveButton,
    } = state

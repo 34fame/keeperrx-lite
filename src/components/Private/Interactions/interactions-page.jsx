@@ -11,12 +11,10 @@ import { EnhancedTable } from '../../../core'
 
 const InteractionsPage = ({ actions, state }) => {
    const { handleDrugsToggle } = actions
-   const { drugs, interactions } = state
+   const { drugs, interactions, loading } = state
 
    const noInteractions = (
-      <Typography variant="body2">
-         No interactions were found for this combination of drugs.
-      </Typography>
+      <Typography variant="body2">No interactions were found.</Typography>
    )
 
    const drugToggles = (
@@ -38,16 +36,15 @@ const InteractionsPage = ({ actions, state }) => {
       </Grid>
    )
 
-   let groupType = 'fullInteractionTypeGroup'
-   if (interactions.interactionTypeGroup) {
-      groupType = 'interactionTypeGroup'
+   let nlmDisclaimer = ''
+   if (!loading && nlmDisclaimer.length > 0) {
+      nlmDisclaimer = (
+         <Typography variant="caption" color="secondary">
+            National Library of Medicine Disclaimer:{' '}
+            {interactions.nlmDisclaimer}
+         </Typography>
+      )
    }
-
-   const nlmDisclaimer = (
-      <Typography variant="caption" color="secondary">
-         National Library of Medicine Disclaimer: {interactions.nlmDisclaimer}
-      </Typography>
-   )
 
    const propsEnhancedTable = {
       headCells: [
@@ -72,7 +69,9 @@ const InteractionsPage = ({ actions, state }) => {
             label: 'Description',
          },
       ],
-      interactions: interactions[groupType] ? interactions[groupType] : [],
+      interactions: interactions.interactions,
+      loading,
+      noInteractions,
    }
 
    const interactionsTable = <EnhancedTable {...propsEnhancedTable} />

@@ -10,7 +10,11 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { EnhancedTableHead, EnhancedTableToolbar } from '../../core'
+import {
+   EnhancedTableHead,
+   EnhancedTableToolbar,
+   LoadingPage,
+} from '../../core'
 
 import { getSorting, sortStable } from '../../core'
 
@@ -35,12 +39,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const EnhancedTable = props => {
-   const { headCells, interactions } = props
+   console.log('EnhancedTable', 'props', props)
+   const { headCells, interactions = [], loading, noInteractions } = props
    const classes = useStyles()
    const [order, setOrder] = useState('asc')
    const [orderBy, setOrderBy] = useState('drug1')
    const [page, setPage] = useState(0)
-   const [dense, setDense] = useState(false)
+   const [dense] = useState(false)
    const [rowsPerPage, setRowsPerPage] = useState(5)
 
    const handleRequestSort = (event, property) => {
@@ -58,6 +63,18 @@ const EnhancedTable = props => {
       setPage(0)
    }
 
+   if (loading) {
+      const propsLoadingPage = {
+         open: loading,
+         message: 'Querying the National Library of Medicine...',
+      }
+      return <LoadingPage {...propsLoadingPage} />
+   }
+
+   if (interactions.length === 0) {
+      return noInteractions
+   }
+
    const emptyRows =
       rowsPerPage -
       Math.min(rowsPerPage, interactions.length - page * rowsPerPage)
@@ -72,6 +89,7 @@ const EnhancedTable = props => {
    }
 
    const propsEnhancedTableToolbar = {}
+
    return (
       <Container maxWidth="xl">
          <Paper className={classes.paper}>
@@ -91,53 +109,33 @@ const EnhancedTable = props => {
                               page * rowsPerPage,
                               page * rowsPerPage + rowsPerPage
                            )
-                           .map((interaction, index) => {
-                              let tableRow = interaction.fullInteractionType.map(
-                                 (interactionType, i) => {
-                                    let row = (
-                                       <TableRow hover key={i}>
-                                          <TableCell
-                                             component="th"
-                                             scope="row"
-                                             padding="none"
-                                          >
-                                             {interaction.sourceName}
-                                          </TableCell>
-                                          <TableCell>
-                                             {
-                                                interactionType.minConcept[0]
-                                                   .name
-                                             }
-                                          </TableCell>
-                                          <TableCell>
-                                             {
-                                                interactionType.minConcept[1]
-                                                   .name
-                                             }
-                                          </TableCell>
-                                          <TableCell>
-                                             {
-                                                interactionType
-                                                   .interactionPair[0].severity
-                                             }
-                                          </TableCell>
-                                          <TableCell>
-                                             {
-                                                interactionType
-                                                   .interactionPair[0]
-                                                   .description
-                                             }
-                                          </TableCell>
-                                       </TableRow>
-                                    )
-                                    return row
-                                 }
+                           .map((interaction, idx) => {
+                              let tableRow = (
+                                 <TableRow hover key={idx}>
+                                    <TableCell
+                                       component="th"
+                                       scope="row"
+                                       padding="none"
+                                    >
+                                       {interaction.source}
+                                    </TableCell>
+                                    <TableCell>{interaction.drug1}</TableCell>
+                                    <TableCell>{interaction.drug2}</TableCell>
+                                    <TableCell>
+                                       {interaction.severity}
+                                    </TableCell>
+                                    <TableCell>
+                                       {interaction.description}
+                                    </TableCell>
+                                 </TableRow>
                               )
                               return tableRow
                            })}
                         {emptyRows > 0 && (
                            <TableRow
-                              style={{ height: (dense ? 33 : 53) * emptyRows }}
+                              style={{
+                                 height: (dense ? 33 : 53) * emptyRows,
+                              }}
                            >
                               <TableCell colSpan={6} />
                            </TableRow>

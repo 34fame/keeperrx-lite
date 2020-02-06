@@ -5,7 +5,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 
 import { firebaseAuth } from '../../services/firebase'
-import AppPage from './app-page'
+import { LoadingPage } from '../../core'
 import Public from '../Public'
 import Private from '../Private'
 
@@ -39,8 +39,12 @@ const App = ({ history }) => {
       removeCookie('authenticating', { path: '/' })
    }
 
+   const propsLoadingPage = {
+      open: authenticating ? true : false,
+      message: 'Logging in...',
+   }
    if (cookies.authenticating) {
-      return <AppPage open={authenticating ? true : false} />
+      return <LoadingPage {...propsLoadingPage} />
    }
 
    if (authenticated) {
