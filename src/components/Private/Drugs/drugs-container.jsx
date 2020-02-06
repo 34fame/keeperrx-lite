@@ -25,7 +25,7 @@ const Drugs = ({ actions, history, state }) => {
    const [contentToolbarSearchTerm, setContentToolbarSearchTerm] = useState('')
    const [drugs, setDrugs] = useState([])
    const [drugsFiltered, setDrugsFiltered] = useState([])
-   const [expanded, setExpanded] = useState(false)
+   const [expanded] = useState(false)
 
    useEffect(() => {
       handleDrugsGet()

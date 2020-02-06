@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
 
 const AdverseEventsTemplate = ({ actions, state }) => {
-   const { drugs, adverseEvents } = state
+   const { adverseEvents } = state
 
    return (
       <Box>

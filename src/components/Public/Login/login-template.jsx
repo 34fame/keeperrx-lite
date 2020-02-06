@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Box from '@material-ui/core/Box'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 
 const LoginTemplate = ({ state }) => {

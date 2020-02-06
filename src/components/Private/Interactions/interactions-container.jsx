@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
 
 import InteractionsPage from './interactions-page'
@@ -18,14 +17,93 @@ const Interactions = ({ actions, history, state }) => {
    const [cookies, setCookie] = useCookies(['drugs'])
    const [drugs, setDrugs] = useState([])
    const [interactions, setInteractions] = useState({})
+   const [normalizedInteractions, setNormalizedInteractions] = useState({
+      nlmDisclaimer: '',
+      interactions: [],
+   })
+   const [loading, setLoading] = useState(true)
 
    useEffect(() => {
       handleDrugsGet()
    }, [])
 
    useEffect(() => {
+      setLoading(true)
       callGetInteractions()
    }, [drugs])
+
+   useEffect(() => {
+      if (Object.keys(interactions) === 0) {
+         return
+      }
+      let scrubbingInteractions = {}
+      if (Object.keys(interactions).includes('fullInteractionTypeGroup')) {
+         scrubbingInteractions = scrubInteractions(
+            'fullInteractionTypeGroup',
+            interactions
+         )
+      } else if (Object.keys(interactions).includes('interactionTypeGroup')) {
+         scrubbingInteractions = scrubInteractions(
+            'interactionTypeGroup',
+            interactions
+         )
+      }
+
+      console.log(
+         'interactions-container',
+         'scrubbingInteractions',
+         scrubbingInteractions
+      )
+      setNormalizedInteractions(scrubbingInteractions)
+      setLoading(false)
+   }, [interactions])
+
+   const scrubInteractions = (groupType, interactions) => {
+      if (
+         groupType !== 'fullInteractionTypeGroup' &&
+         groupType !== 'interactionTypeGroup'
+      ) {
+         return []
+      }
+
+      let groupInteractionType = 'interactionType'
+      if (groupType === 'fullInteractionTypeGroup') {
+         groupInteractionType = 'fullInteractionType'
+      }
+
+      console.log(
+         'interactions-container',
+         'groupType',
+         groupType,
+         'groupInteractionType',
+         groupInteractionType
+      )
+
+      let scrubbedInteractions = {
+         nlmDisclaimer: interactions.nlmDisclaimer,
+         interactions: [],
+      }
+      interactions[groupType].map(group => {
+         let source = group.sourceName
+         group[groupInteractionType].map(type => {
+            type.interactionPair.map(pair => {
+               let drug1 = pair.interactionConcept[0].minConceptItem.name
+               let drug2 = pair.interactionConcept[1].minConceptItem.name
+               let severity = pair.severity
+               let description = pair.description
+               let scrubPair = {
+                  source,
+                  drug1,
+                  drug2,
+                  severity,
+                  description,
+               }
+               scrubbedInteractions.interactions.push(scrubPair)
+            })
+         })
+      })
+      return scrubbedInteractions
+   }
 
    const handleDrugsGet = () => {
       let drugs = cookies.drugs
@@ -44,20 +122,27 @@ const Interactions = ({ actions, history, state }) => {
       let endpoint = ''
       let payload = ''
 
-      if (drugs.length === 0) {
+      let includedDrugs = {}
+      Object.keys(drugs).map(drug => {
+         if (drugs[drug].include === true) {
+            includedDrugs[drug] = drugs[drug]
+         }
+      })
+
+      if (Object.keys(includedDrugs).length === 0) {
          return
       }
 
-      if (drugs.length === 1) {
+      if (Object.keys(includedDrugs).length === 1) {
          endpoint = rxnav.interaction.endpoint.replace(
             '%rxcui%',
-            drugs[0].rxcui
+            Object.keys(includedDrugs)[0]
          )
          payload = rxnav.interaction.payload
       } else {
          let drugList = ''
-         Object.keys(drugs).map(rxcui => {
-            if (drugs[rxcui].include) {
+         Object.keys(includedDrugs).map(rxcui => {
+            if (includedDrugs[rxcui].include) {
                drugList =
                   drugList.length === 0
                      ? drugList + rxcui
@@ -82,6 +167,7 @@ const Interactions = ({ actions, history, state }) => {
    }
 
    const handleDrugsToggle = rxcui => {
+      setLoading(true)
       let drugsUpdated = drugs
       drugsUpdated[rxcui].include = !drugsUpdated[rxcui].include
       setDrugs(drugsUpdated)
@@ -102,7 +188,8 @@ const Interactions = ({ actions, history, state }) => {
       actions: { handleDrugsToggle },
       state: {
          drugs,
-         interactions,
+         interactions: normalizedInteractions,
+         loading,
       },
    }
 
