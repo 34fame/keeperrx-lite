@@ -202,6 +202,7 @@ const DrugsPage = ({ actions, state }) => {
       state: {
          ...state,
          addButton,
+         contentToolbarDisplaySetting,
          pageTitle,
       },
    }

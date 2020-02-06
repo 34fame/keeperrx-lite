@@ -50,9 +50,9 @@ const DrugsAddTemplate = ({ state }) => {
                {/* Save Button */}
                <Grid item>{saveButton}</Grid>
             </Grid>
-            <Grid container spacing={4}>
+            {/* <Grid container spacing={4}>
                <Grid item>{pageInstructions}</Grid>
-            </Grid>
+            </Grid> */}
          </Container>
       </Box>
    )

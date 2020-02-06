@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid'
 import ContentToolbar from '../ContentToolbar'
 
 const DrugsTemplate = ({ actions, content, state }) => {
-   const { addButton, pageTitle } = state
+   const { addButton, contentToolbarDisplaySetting, pageTitle } = state
 
    const propsContentBar = { actions, state }
 
@@ -26,7 +26,9 @@ const DrugsTemplate = ({ actions, content, state }) => {
                </Grid>
             </Box>
          </Container>
-         <Container maxWidth="xl">
+         <Container
+            maxWidth={contentToolbarDisplaySetting === 'list' ? 'md' : 'xl'}
+         >
             {/* Drug List */}
             <Box>{content}</Box>
          </Container>
