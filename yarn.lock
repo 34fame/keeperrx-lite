@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@34fame/validator@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@34fame/validator/-/validator-1.2.1.tgz#18f14cdb64f3330c40ebf4cd87e6a7983e330034"
+  integrity sha512-T0gkroyiA7G0OHXdWAN6jyGoFqeFH4Iu+OAdThC+nCilFCt/yjgKgtxTIIJJQr+MfC39pW18pQu+Qt2HeVQAEA==
+
 "@babel/code-frame@7.5.5":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.5.5.tgz#bc0782f6d69f7b7d49531219699b988f669a8f9d"
