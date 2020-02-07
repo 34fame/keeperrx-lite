@@ -23,35 +23,14 @@ const App = ({ history }) => {
    const propsPrivate = { history }
 
    useEffect(() => {
-      firebaseAuth()
-         .getRedirectResult()
-         .then(result => {
-            let token = result.credential.accessToken
-            let user = result.user
-            initSession(user)
-         })
-         .catch(err => {
-            let errorCode = err.code
-            let errorMessage = err.message
-            let email = err.email
-            let credential = err.credential
-            if (errorCode === 'auth/account-exists-with-different-credential') {
-               alert(
-                  'You have already signed up with a different auth provider with the same email address.'
-               )
-            } else {
-               console.error(errorCode, errorMessage, email, credential)
-            }
+      firebaseAuth().onAuthStateChanged(session => {
+         console.log('app-container', 'onAuthStateChanged', 'session', session)
+         if (session) {
+            initSession(session)
+         } else {
             removeCookie('authenticating', { path: '/' })
-            history.push(routes.root)
-         })
-
-      // firebaseAuth().onAuthStateChanged(session => {
-      //    console.log('app-container', 'onAuthStateChanged', 'session', session)
-      //    if (session) {
-      //       initSession(session)
-      //    }
-      // })
+         }
+      })
 
       if (authenticated) {
          setCookie('authenticating', true, { path: '/' })

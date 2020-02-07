@@ -13,7 +13,7 @@ const InteractionsPage = ({ actions, state }) => {
    const { handleDrugsToggle } = actions
    const { drugs, interactions, loading } = state
 
-   const noInteractions = (
+   const Empty = (
       <Typography variant="body2">No interactions were found.</Typography>
    )
 
@@ -69,9 +69,9 @@ const InteractionsPage = ({ actions, state }) => {
             label: 'Description',
          },
       ],
-      interactions: interactions.interactions,
+      rows: interactions.interactions,
       loading,
-      noInteractions,
+      Empty,
    }
 
    const interactionsTable = <EnhancedTable {...propsEnhancedTable} />

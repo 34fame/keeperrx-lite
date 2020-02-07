@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 
 const EnhancedTable = props => {
    console.log('EnhancedTable', 'props', props)
-   const { headCells, interactions = [], loading, noInteractions } = props
+   const { headCells, rows = [], loading, Empty } = props
    const classes = useStyles()
    const [order, setOrder] = useState('asc')
    const [orderBy, setOrderBy] = useState('drug1')
@@ -48,6 +48,7 @@ const EnhancedTable = props => {
    const [dense] = useState(false)
    const [rowsPerPage, setRowsPerPage] = useState(5)
 
+   console.log('EnhancedTable', 'rows', rows)
    const handleRequestSort = (event, property) => {
       const isAsc = orderBy === property && order === 'asc'
       setOrder(isAsc ? 'desc' : 'asc')
@@ -71,13 +72,12 @@ const EnhancedTable = props => {
       return <LoadingPage {...propsLoadingPage} />
    }
 
-   if (interactions.length === 0) {
-      return noInteractions
+   if (rows.length === 0) {
+      return Empty
    }
 
    const emptyRows =
-      rowsPerPage -
-      Math.min(rowsPerPage, interactions.length - page * rowsPerPage)
+      rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
    const propsEnhancedTableHead = {
       headCells,
@@ -85,7 +85,7 @@ const EnhancedTable = props => {
       order,
       orderBy,
       onRequestSort: handleRequestSort,
-      rowCount: interactions.length,
+      rowCount: rows.length,
    }
 
    const propsEnhancedTableToolbar = {}
@@ -104,12 +104,12 @@ const EnhancedTable = props => {
                   >
                      <EnhancedTableHead {...propsEnhancedTableHead} />
                      <TableBody>
-                        {sortStable(interactions, getSorting(order, orderBy))
+                        {sortStable(rows, getSorting(order, orderBy))
                            .slice(
                               page * rowsPerPage,
                               page * rowsPerPage + rowsPerPage
                            )
-                           .map((interaction, idx) => {
+                           .map((row, idx) => {
                               let tableRow = (
                                  <TableRow hover key={idx}>
                                     <TableCell
@@ -117,15 +117,19 @@ const EnhancedTable = props => {
                                        scope="row"
                                        padding="none"
                                     >
-                                       {interaction.source}
-                                    </TableCell>
-                                    <TableCell>{interaction.drug1}</TableCell>
-                                    <TableCell>{interaction.drug2}</TableCell>
-                                    <TableCell>
-                                       {interaction.severity}
+                                       {row[headCells[0].id]}
                                     </TableCell>
                                     <TableCell>
-                                       {interaction.description}
+                                       {row[headCells[1].id]}
+                                    </TableCell>
+                                    <TableCell>
+                                       {row[headCells[2].id]}
+                                    </TableCell>
+                                    <TableCell>
+                                       {row[headCells[3].id]}
+                                    </TableCell>
+                                    <TableCell>
+                                       {row[headCells[4].id]}
                                     </TableCell>
                                  </TableRow>
                               )
@@ -146,7 +150,7 @@ const EnhancedTable = props => {
                <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   component="div"
-                  count={interactions.length}
+                  count={rows.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onChangePage={handleChangePage}

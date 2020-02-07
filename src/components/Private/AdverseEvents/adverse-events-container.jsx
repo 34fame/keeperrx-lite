@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
+import _ from 'lodash'
 import { useCookies } from 'react-cookie'
 
 import AdverseEventsPage from './adverse-events-page'
 
 import constants from '../../../constants'
 
-const AdverseEvents = ({ actions, history, state }) => {
+const AdverseEvents = ({ history, state }) => {
    const { routes, services } = constants
    const { openfda } = services
 
@@ -15,33 +17,82 @@ const AdverseEvents = ({ actions, history, state }) => {
       history.push(routes.root)
    }
 
-   const [cookies] = useCookies(['drugs'])
-   const [drugs, setDrugs] = useState([])
-   const [adverseEvents, setAdverseEvents] = useState({})
+   const [values, setValues] = useState({
+      startDate: '20191001',
+      endDate: moment().format('YYYYMMDD'),
+      rxcui: '208149',
+   })
+   const [adverseEvents, setAdverseEvents] = useState([])
+   const [normalizedAdverseEvents, setNormalizedAdverseEvents] = useState({})
+   const [loading, setLoading] = useState(false)
 
    useEffect(() => {
-      handleDrugsGet()
-   }, [])
+      setNormalizedAdverseEvents(scrubAdverseEvents())
+      setLoading(false)
+   }, [adverseEvents])
 
-   useEffect(() => {
-      getAdverseEvents()
-   }, [drugs])
+   const scrubAdverseEvents = () => {
+      console.log(
+         'adverse-events-container',
+         'scrubAdverseEvents',
+         'adverseEvents',
+         adverseEvents
+      )
+      if (_.pull(Object.keys(adverseEvents), 'meta').length !== 1) {
+         return
+      }
 
-   const handleDrugsGet = () => {
-      let drugs = cookies.drugs
-      setDrugs(drugs)
+      let rxcui = _.pull(Object.keys(adverseEvents), 'meta')[0]
+
+      let scrubbedAdverseEvents = {
+         meta: {
+            disclaimer: adverseEvents.meta.disclaimer,
+            results: adverseEvents.meta.results,
+         },
+         events: [],
+      }
+
+      adverseEvents[rxcui].map(event => {
+         let scrubbedEvent = {
+            dateRecieved: event.receivedate,
+            occurCountry: event.occurcountry,
+            receivingOrg: event.receiver.receiverorganization,
+            reaction: [],
+            takenWith: [],
+         }
+         event.patient.reaction.map(reaction => {
+            scrubbedEvent.reaction.push(reaction.reactionmeddrapt + ', ')
+         })
+         event.patient.drug.map(drug => {
+            scrubbedEvent.takenWith.push(drug.medicinalproduct + ', ')
+         })
+         scrubbedAdverseEvents.events.push(scrubbedEvent)
+      })
+      console.log(
+         'adverse-events-container',
+         'scrubAdverseEvents',
+         'scrubbedAdverseEvents',
+         scrubbedAdverseEvents
+      )
+      return scrubbedAdverseEvents
    }
 
-   const callGetAdverseEvents = async rxcui => {
+   const callGetAdverseEvents = async () => {
+      setLoading(true)
+      const { startDate, endDate, rxcui } = values
       const endpoint =
          openfda.adverseEventsByRxcuiInDateRange.endpoint
             .replace('%rxcui%', rxcui)
-            .replace('%startYYYYMMDD%', '20190901')
-            .replace('%endYYYYMMDD%', '20200101') + '&limit=99'
+            .replace('%startYYYYMMDD%', startDate)
+            .replace('%endYYYYMMDD%', endDate) + '&limit=99'
       let adverseEventsResult = {}
       await fetch(endpoint, openfda.adverseEventsByRxcui.payload)
          .then(response => response.json())
          .then(response => {
+            console.log('response', response)
+            if (response.error) {
+               return []
+            }
             adverseEventsResult.meta = response.meta
             if (!adverseEventsResult[rxcui]) {
                adverseEventsResult[rxcui] = []
@@ -54,35 +105,39 @@ const AdverseEvents = ({ actions, history, state }) => {
          .catch(err => {
             console.error('callGetAdverseEvents', 'error', err)
          })
-
-      return adverseEventsResult
+      console.log(
+         'adverse-events-container',
+         'callGetAdverseEvents',
+         'adverseEventsResult',
+         adverseEventsResult
+      )
+      setAdverseEvents(adverseEventsResult)
    }
 
-   const getAdverseEvents = async () => {
-      let adverseEventsResults = {}
-      await Promise.all(
-         drugs.map(async drug => {
-            let adverseEventsResult = {}
-            await callGetAdverseEvents(drug.rxcui).then(response => {
-               adverseEventsResult.meta = response.meta
-               adverseEventsResult[drug.rxcui] = response[drug.rxcui]
-            })
-            adverseEventsResults.meta = adverseEventsResult.meta
-            adverseEventsResults[drug.rxcui] = adverseEventsResult[drug.rxcui]
-            return
-         })
-      )
-      setAdverseEvents(adverseEventsResults)
+   const handleOnChange = e => {
+      const { name, value } = e.target
+
+      setValues({
+         ...values,
+         [name]: value,
+      })
+   }
+
+   const handleSearch = () => {
+      callGetAdverseEvents()
    }
 
    const propsAdverseEventsPage = {
-      actions,
+      actions: {
+         handleOnChange,
+         handleSearch,
+      },
       history,
-      state: {},
-   }
-
-   if (Object.keys(adverseEvents).length > 1) {
-      propsAdverseEventsPage.state.adverseEvents = adverseEvents
+      state: {
+         loading,
+         adverseEvents: normalizedAdverseEvents,
+         values,
+      },
    }
 
    return (

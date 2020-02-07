@@ -66,6 +66,8 @@ const Drugs = ({ actions, history, state }) => {
          return drug.rxcui !== rxcui
       })
 
+      // TODO remove drug from user collection in firestore
+
       setCookie('drugs', result, { path: '/' })
 
       handleDrugsGet(result)
@@ -75,6 +77,8 @@ const Drugs = ({ actions, history, state }) => {
 
    const handleDrugsGet = drugs => {
       if (!drugs) {
+         // TODO read in drugs from user collection in firestore
+
          drugs = cookies.drugs
       }
       if (drugs && _.isArray(drugs)) {

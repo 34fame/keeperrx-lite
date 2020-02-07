@@ -2,27 +2,71 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
+import Container from '@material-ui/core/Container'
+import Paper from '@material-ui/core/Paper'
 
-const AdverseEventsTemplate = ({ actions, state }) => {
-   const { adverseEvents } = state
+const AdverseEventsTemplate = ({ state }) => {
+   const {
+      loading,
+      AdverseEventsTable,
+      StartDate,
+      EndDate,
+      Drug,
+      SearchButton,
+      LoadingPage,
+   } = state
+
+   const content = () => {
+      if (loading) {
+         return LoadingPage
+      }
+
+      return AdverseEventsTable
+   }
 
    return (
       <Box>
-         <Grid container direction="column" alignContent="center" spacing={3}>
-            <Grid item>
-               <Box>
-                  {adverseEvents
-                     ? JSON.stringify(adverseEvents, null, 3)
-                     : null}
-               </Box>
-            </Grid>
-         </Grid>
+         <Box
+            p={4}
+            display="flex"
+            direction="column"
+            justifyContent="center"
+            alignContent="center"
+            alignItems="center"
+         >
+            <Container maxWidth="md">
+               <Grid
+                  container
+                  justify="center"
+                  alignItems="center"
+                  alignContent="center"
+                  spacing={4}
+               >
+                  <Grid item xs={12} sm={6} md={3}>
+                     {StartDate}
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                     {EndDate}
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                     {Drug}
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                     {SearchButton}
+                  </Grid>
+               </Grid>
+            </Container>
+         </Box>
+         <Box p={2} display="flex" justifyContent="center">
+            <Container maxWidth="lg">
+               <Box>{content}</Box>
+            </Container>
+         </Box>
       </Box>
    )
 }
 
 AdverseEventsTemplate.propTypes = {
-   actions: PropTypes.object,
    state: PropTypes.object,
 }
 
