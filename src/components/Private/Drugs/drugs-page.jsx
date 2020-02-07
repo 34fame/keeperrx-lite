@@ -9,12 +9,14 @@ import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
+import Container from '@material-ui/core/Container'
 import IconButton from '@material-ui/core/Button'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import AddCircle from '@material-ui/icons/AddCircle'
 import DeleteForever from '@material-ui/icons/DeleteForever'
@@ -106,9 +108,23 @@ const DrugsPage = ({ actions, state }) => {
    }
 
    const contentEmpty = (
-      <Typography variant="body2">
-         You have no drugs saved. Click ADD A DRUG to get started.
-      </Typography>
+      <Container maxWidth="md">
+         <Box mt={4}>
+            <Paper>
+               <Box p={4} display="flex" justifyContent="center">
+                  <Typography variant="subtitle1">
+                     You have no drugs saved.{' '}
+                     <Button
+                        color="primary"
+                        onClick={() => handleAddClick('drugs')}
+                     >
+                        Add a drug
+                     </Button>
+                  </Typography>
+               </Box>
+            </Paper>
+         </Box>
+      </Container>
    )
 
    const contentList = () => {
@@ -171,7 +187,9 @@ const DrugsPage = ({ actions, state }) => {
                         title={item.textPrimary}
                      />
                      <CardContent></CardContent>
-                     <CardActions disableSpacing></CardActions>
+                     <CardActions disableSpacing>
+                        {item.secondaryAction}
+                     </CardActions>
                      <Collapse in={expanded} timeout="auto" unmountOnExit>
                         <CardContent></CardContent>
                      </Collapse>
