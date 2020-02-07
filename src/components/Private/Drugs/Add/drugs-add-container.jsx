@@ -155,6 +155,8 @@ const DrugsAdd = ({ actions, history, state }) => {
       // using filter (reject does falsy) to prevent duplicates
       drugs = _.reject(drugs, { rxcui: newDrug.rxcui })
 
+      // TODO write drug to user collection in firestore
+
       drugs.push(newDrug)
       drugs = sortObjectArray(drugs, 'textPrimary')
 

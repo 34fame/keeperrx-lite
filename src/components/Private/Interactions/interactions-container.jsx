@@ -106,6 +106,8 @@ const Interactions = ({ actions, history, state }) => {
    }
 
    const handleDrugsGet = () => {
+      // TODO read in drugs from user collection in firestore
+
       let drugs = cookies.drugs
       let drugsObject = {}
       if (drugs && Array.isArray(drugs)) {
@@ -171,6 +173,8 @@ const Interactions = ({ actions, history, state }) => {
       let drugsUpdated = drugs
       drugsUpdated[rxcui].include = !drugsUpdated[rxcui].include
       setDrugs(drugsUpdated)
+
+      // TODO update drug on user collection in firestore
 
       drugsUpdated = cookies.drugs
       drugsUpdated.map(drug => {

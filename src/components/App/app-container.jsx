@@ -26,8 +26,10 @@ const App = ({ history }) => {
       firebaseAuth()
          .getRedirectResult()
          .then(result => {
-            let token = result.credential.accessToken
             let user = result.user
+
+            // TODO write to user collection in firestore
+
             initSession(user)
          })
          .catch(err => {
