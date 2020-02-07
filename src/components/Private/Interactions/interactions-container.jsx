@@ -49,11 +49,6 @@ const Interactions = ({ actions, history, state }) => {
          )
       }
 
-      console.log(
-         'interactions-container',
-         'scrubbingInteractions',
-         scrubbingInteractions
-      )
       setNormalizedInteractions(scrubbingInteractions)
       setLoading(false)
    }, [interactions])
@@ -70,14 +65,6 @@ const Interactions = ({ actions, history, state }) => {
       if (groupType === 'fullInteractionTypeGroup') {
          groupInteractionType = 'fullInteractionType'
       }
-
-      console.log(
-         'interactions-container',
-         'groupType',
-         groupType,
-         'groupInteractionType',
-         groupInteractionType
-      )
 
       let scrubbedInteractions = {
          nlmDisclaimer: interactions.nlmDisclaimer,
