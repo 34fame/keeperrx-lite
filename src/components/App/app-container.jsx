@@ -24,6 +24,7 @@ const App = ({ history }) => {
 
    useEffect(() => {
       firebaseAuth().onAuthStateChanged(session => {
+         console.log('app-container', 'onAuthStateChanged', 'session', session)
          if (session) {
             initSession(session)
          }
