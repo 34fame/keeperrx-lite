@@ -1,7 +1,7 @@
 {
-   "short_name": "React Boilerplate",
-   "name": "React Boilerplate for 34 Fame",
-   "description": "A boilerplate setup for new React projects.",
+   "short_name": "KeeperRx Lite",
+   "name": "KeeperRx Lite by 34 Fame, LLC",
+   "description": "KeeperRx Lite helps consumers research drug interactions and adverse events.",
    "icons": [
       {
          "src": "34fame-favicon.ico",
