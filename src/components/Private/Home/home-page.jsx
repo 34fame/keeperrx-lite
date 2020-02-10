@@ -85,7 +85,13 @@ const HomePage = ({ actions, history, state }) => {
       >
          <List>
             {mainMenuItems.map((item, idx) => (
-               <ListItem key={idx} button dense divider onClick={item.onClick}>
+               <ListItem
+                  key={idx}
+                  button
+                  dense
+                  selected={activeMenu === item.name ? true : false}
+                  onClick={item.onClick}
+               >
                   {item.avatar && <Avatar>{item.avatar}</Avatar>}
                   {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
                   <ListItemText
@@ -129,7 +135,7 @@ const HomePage = ({ actions, history, state }) => {
       >
          <List>
             {profileMenuItems.map((item, idx) => (
-               <ListItem key={idx} button dense divider onClick={item.onClick}>
+               <ListItem key={idx} button dense onClick={item.onClick}>
                   {item.avatar && <Avatar>{item.avatar}</Avatar>}
                   {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
                   <ListItemText
@@ -171,7 +177,7 @@ const HomePage = ({ actions, history, state }) => {
       },
       profileMenu: {
          menu: profileMenu,
-         button: profileMenuButton,
+         button: profileMenuButton(),
       },
    }
 

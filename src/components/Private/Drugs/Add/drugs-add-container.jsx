@@ -4,6 +4,10 @@ import _ from 'lodash'
 import { useCookies } from 'react-cookie'
 import DrugsAddPage from './drugs-add-page'
 
+import {
+   getFirestoreObjects,
+   saveFirestoreObject,
+} from '../../../../services/firebase'
 import constants from '../../../../constants'
 import { sortObjectArray } from '../../../../core'
 
@@ -18,7 +22,7 @@ const DrugsAdd = ({ actions, history, state }) => {
       history.push(routes.root)
    }
 
-   const [cookies, setCookie] = useCookies()
+   const [cookies] = useCookies('session')
    const [loading, setLoading] = useState(false)
    const [fuzzySearch, setFuzzySearch] = useState('')
    const [fuzzySuggestions, setFuzzySuggestions] = useState([])
@@ -142,7 +146,37 @@ const DrugsAdd = ({ actions, history, state }) => {
       history.push(routes.drugs)
    }
 
-   const handleSave = () => {
+   const saveToDatabase = async drug => {
+      const userSession = cookies.session
+      let document = {
+         uid: userSession.uid,
+         ['drugs.' + [drug.rxcui]]: drug,
+      }
+
+      // avoid duplicate entries
+      let user = await getFirestoreObjects({
+         collection: 'users',
+         where: [['uid', '==', userSession.uid]],
+      })
+      if (user[0].drugs[drug.rxcui]) {
+         return true
+      }
+
+      await saveFirestoreObject({
+         collection: 'users',
+         document,
+         method: 'update',
+      })
+         .then(result => {
+            return result
+         })
+         .catch(err => {
+            console.log('drugs-add-container', 'saveToDatabase', 'err', err)
+            return false
+         })
+   }
+
+   const handleSave = async () => {
       let newDrug = {
          rxcui: drugConcept.rxcui,
          textPrimary: fuzzySearch,
@@ -150,20 +184,10 @@ const DrugsAdd = ({ actions, history, state }) => {
          include: true,
       }
 
-      let drugs = cookies.drugs ? cookies.drugs : []
-
-      // using reject (reject is opposite of filter) to prevent duplicates
-      drugs = _.reject(drugs, { rxcui: newDrug.rxcui })
-
-      // TODO write drug to user collection in firestore
-
-      drugs.push(newDrug)
-      drugs = sortObjectArray(drugs, 'textPrimary')
-
-      setCookie('drugs', drugs, { path: '/' })
-      setActiveState('get')
-
-      history.push(routes.drugs)
+      await saveToDatabase(newDrug).then(() => {
+         setActiveState('get')
+         history.push(routes.drugs)
+      })
    }
 
    const propsDrugsAddPage = {

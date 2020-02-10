@@ -29,7 +29,7 @@ const InteractionsPage = ({ actions, state }) => {
                         onChange={() => handleDrugsToggle(rxcui)}
                      />
                   }
-                  label={drugs[rxcui].name}
+                  label={drugs[rxcui].textPrimary}
                />
             </Grid>
          ))}

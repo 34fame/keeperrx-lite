@@ -39,7 +39,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const EnhancedTable = props => {
-   console.log('EnhancedTable', 'props', props)
    const { headCells, rows = [], loading, Empty } = props
    const classes = useStyles()
    const [order, setOrder] = useState('asc')
@@ -48,7 +47,6 @@ const EnhancedTable = props => {
    const [dense] = useState(false)
    const [rowsPerPage, setRowsPerPage] = useState(5)
 
-   console.log('EnhancedTable', 'rows', rows)
    const handleRequestSort = (event, property) => {
       const isAsc = orderBy === property && order === 'asc'
       setOrder(isAsc ? 'desc' : 'asc')

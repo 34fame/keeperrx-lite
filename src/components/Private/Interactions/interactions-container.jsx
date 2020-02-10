@@ -3,9 +3,13 @@ import { useCookies } from 'react-cookie'
 
 import InteractionsPage from './interactions-page'
 
+import {
+   getFirestoreObjects,
+   saveFirestoreObject,
+} from '../../../services/firebase'
 import constants from '../../../constants'
 
-const Interactions = ({ actions, history, state }) => {
+const Interactions = ({ history, state }) => {
    const { routes, services } = constants
    const { rxnav } = services
 
@@ -14,7 +18,7 @@ const Interactions = ({ actions, history, state }) => {
       history.push(routes.root)
    }
 
-   const [cookies, setCookie] = useCookies(['drugs'])
+   const [cookies, setCookie] = useCookies(['session'])
    const [drugs, setDrugs] = useState([])
    const [interactions, setInteractions] = useState({})
    const [normalizedInteractions, setNormalizedInteractions] = useState({
@@ -92,19 +96,15 @@ const Interactions = ({ actions, history, state }) => {
       return scrubbedInteractions
    }
 
-   const handleDrugsGet = () => {
-      // TODO read in drugs from user collection in firestore
+   const handleDrugsGet = async () => {
+      let userSession = cookies.session
+      let user = await getFirestoreObjects({
+         collection: 'users',
+         where: [['uid', '==', userSession.uid]],
+      })
+      let userDrugs = user[0].drugs
 
-      let drugs = cookies.drugs
-      let drugsObject = {}
-      if (drugs && Array.isArray(drugs)) {
-         drugs.map(drug => {
-            drugsObject[drug.rxcui] = {}
-            drugsObject[drug.rxcui].name = drug.textPrimary
-            drugsObject[drug.rxcui].include = drug.include
-         })
-         setDrugs(drugsObject)
-      }
+      setDrugs(userDrugs)
    }
 
    const callGetInteractions = async () => {
@@ -155,14 +155,20 @@ const Interactions = ({ actions, history, state }) => {
       setInteractions(interactionsResult)
    }
 
-   const handleDrugsToggle = rxcui => {
+   const handleDrugsToggle = async rxcui => {
       setLoading(true)
       let drugsUpdated = drugs
       drugsUpdated[rxcui].include = !drugsUpdated[rxcui].include
       setDrugs(drugsUpdated)
 
       // TODO update drug on user collection in firestore
-
+      let userSession = cookies.session
+      let document = {
+         uid: userSession.uid,
+         drugs: drugsUpdated,
+      }
+      await saveFirestoreObject({ collection: 'users', document })
+      console.log('drugsUpdated', drugsUpdated)
       drugsUpdated = cookies.drugs
       drugsUpdated.map(drug => {
          if (drug.rxcui === rxcui) {
