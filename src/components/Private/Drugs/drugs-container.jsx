@@ -55,7 +55,17 @@ const Drugs = ({ actions, history, state }) => {
       }
    }, [contentToolbarSearchTerm])
 
-   const handleContentToolbarDisplayClick = name => {
+   const handleContentToolbarDisplayClick = async name => {
+      const userSession = cookies.session
+      const document = {
+         uid: userSession.uid,
+         contentToolbarPreference: name,
+      }
+      await saveFirestoreObject({
+         collection: 'users',
+         document,
+         method: 'udpate',
+      })
       setContentToolbarDisplaySetting(name)
    }
 
@@ -103,22 +113,22 @@ const Drugs = ({ actions, history, state }) => {
    const handleDrugsDetail = () => {}
 
    const handleDrugsGet = async () => {
+      let drugs = []
       let userSession = cookies.session
       let user = await getFirestoreObjects({
          collection: 'users',
          where: [['uid', '==', userSession.uid]],
       })
-      let userDrugs = user[0].drugs
 
-      let drugs = []
-      Object.keys(userDrugs).map(key => {
-         drugs.push(userDrugs[key])
-      })
+      if (user[0].drugs) {
+         let userDrugs = user[0].drugs
 
-      if (drugs && _.isArray(drugs)) {
-         setDrugs(drugs)
-         setDrugsFiltered(drugs)
+         Object.keys(userDrugs).map(key => {
+            drugs.push(userDrugs[key])
+         })
       }
+      setDrugs(drugs)
+      setDrugsFiltered(drugs)
    }
 
    const propsDrugsPage = {

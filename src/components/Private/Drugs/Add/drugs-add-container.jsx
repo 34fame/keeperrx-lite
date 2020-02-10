@@ -158,7 +158,7 @@ const DrugsAdd = ({ actions, history, state }) => {
          collection: 'users',
          where: [['uid', '==', userSession.uid]],
       })
-      if (user[0].drugs[drug.rxcui]) {
+      if (user[0].drugs && user[0].drugs[drug.rxcui]) {
          return true
       }
 
