@@ -152,7 +152,7 @@ const DrugsAdd = ({ actions, history, state }) => {
 
       let drugs = cookies.drugs ? cookies.drugs : []
 
-      // using filter (reject does falsy) to prevent duplicates
+      // using reject (reject is opposite of filter) to prevent duplicates
       drugs = _.reject(drugs, { rxcui: newDrug.rxcui })
 
       // TODO write drug to user collection in firestore
