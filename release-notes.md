@@ -1,5 +1,11 @@
 # Release Notes
 
+## 0.6.1
+
+### Bug Fixes
+
+-  Resolved issue preventing adding a drug when the current list of drugs is empty
+
 ## 0.6.0
 
 ### Features
