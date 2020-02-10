@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 
-import { firebaseAuth } from '../../services/firebase'
+import { firebaseAuth, saveFirestoreObject } from '../../services/firebase'
 import { LoadingPage } from '../../core'
 import Public from '../Public'
 import Private from '../Private'
@@ -24,7 +24,6 @@ const App = ({ history }) => {
 
    useEffect(() => {
       firebaseAuth().onAuthStateChanged(session => {
-         console.log('app-container', 'onAuthStateChanged', 'session', session)
          if (session) {
             initSession(session)
          } else {
@@ -37,8 +36,24 @@ const App = ({ history }) => {
       }
    }, [authenticated])
 
-   const initSession = session => {
-      setCookie('session', session, { path: routes.root })
+   const saveUserToDatabase = async session => {
+      await saveFirestoreObject({
+         collection: 'users',
+         document: session,
+         method: 'update',
+      })
+         .then(result => {
+            return result
+         })
+         .catch(err => {
+            console.log('app-container', 'saveUserToDatabase', 'err', err)
+            return false
+         })
+   }
+
+   const initSession = async session => {
+      await saveUserToDatabase(session.providerData[0])
+      setCookie('session', session.providerData[0], { path: routes.root })
       removeCookie('authenticating', { path: '/' })
    }
 
@@ -46,6 +61,7 @@ const App = ({ history }) => {
       open: authenticating ? true : false,
       message: 'Logging in...',
    }
+
    if (cookies.authenticating) {
       return <LoadingPage {...propsLoadingPage} />
    }

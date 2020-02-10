@@ -5,6 +5,10 @@ import { useCookies } from 'react-cookie'
 
 import DrugsPage from './drugs-page'
 
+import {
+   getFirestoreObjects,
+   saveFirestoreObject,
+} from '../../../services/firebase'
 import constants from '../../../constants'
 
 const Drugs = ({ actions, history, state }) => {
@@ -17,7 +21,7 @@ const Drugs = ({ actions, history, state }) => {
       history.push(routes.root)
    }
 
-   const [cookies, setCookie] = useCookies(['drugs'])
+   const [cookies] = useCookies(['session'])
    const [
       contentToolbarDisplaySetting,
       setContentToolbarDisplaySetting,
@@ -60,27 +64,57 @@ const Drugs = ({ actions, history, state }) => {
       setContentToolbarSearchTerm(value)
    }
 
-   const handleDrugsDelete = rxcui => {
-      let drugs = cookies.drugs
-      let result = _.filter(drugs, drug => {
-         return drug.rxcui !== rxcui
+   const removeFromDatabase = async (uid, drugs) => {
+      let document = {
+         uid,
+         drugs,
+      }
+
+      await saveFirestoreObject({
+         collection: 'users',
+         document,
+         method: 'update',
+      })
+         .then(result => {
+            return result
+         })
+         .catch(err => {
+            console.log('drugs-add-container', 'saveToDatabase', 'err', err)
+            return false
+         })
+   }
+
+   const handleDrugsDelete = async rxcui => {
+      let userSession = cookies.session
+      let user = await getFirestoreObjects({
+         collection: 'users',
+         where: [['uid', '==', userSession.uid]],
       })
 
-      // TODO remove drug from user collection in firestore
+      if (user[0] && user[0].drugs) {
+         let currentDrugs = user[0].drugs
+         delete currentDrugs[rxcui]
+         await removeFromDatabase(userSession.uid, currentDrugs)
+      }
 
-      setCookie('drugs', result, { path: '/' })
-
-      handleDrugsGet(result)
+      handleDrugsGet()
    }
 
    const handleDrugsDetail = () => {}
 
-   const handleDrugsGet = drugs => {
-      if (!drugs) {
-         // TODO read in drugs from user collection in firestore
+   const handleDrugsGet = async () => {
+      let userSession = cookies.session
+      let user = await getFirestoreObjects({
+         collection: 'users',
+         where: [['uid', '==', userSession.uid]],
+      })
+      let userDrugs = user[0].drugs
 
-         drugs = cookies.drugs
-      }
+      let drugs = []
+      Object.keys(userDrugs).map(key => {
+         drugs.push(userDrugs[key])
+      })
+
       if (drugs && _.isArray(drugs)) {
          setDrugs(drugs)
          setDrugsFiltered(drugs)

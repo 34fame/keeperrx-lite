@@ -6,8 +6,8 @@ import HomePage from './home-page'
 import constants from '../../../constants'
 
 const Home = ({ history }) => {
-   const [anchorElMainMenu, setAnchorElMainMenu] = useState(null)
-   const [anchorElProfileMenu, setAnchorElProfileMenu] = useState(null)
+   const [anchorElMainMenu, setAnchorElMainMenu] = useState('')
+   const [anchorElProfileMenu, setAnchorElProfileMenu] = useState('')
    const [activeMenu, setActiveMenu] = useState('drugs')
    const [activeState, setActiveState] = useState('get')
    const { routes } = constants

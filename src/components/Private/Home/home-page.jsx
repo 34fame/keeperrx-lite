@@ -14,6 +14,7 @@ import NotificationsActive from '@material-ui/icons/NotificationsActive'
 import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew'
 import WarningIcon from '@material-ui/icons/Warning'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { useCookies } from 'react-cookie'
 
 import HomeTemplate from './home-template'
 import Drugs from '../Drugs'
@@ -45,6 +46,7 @@ const HomePage = ({ actions, history, state }) => {
       },
    })
    const classes = useStyles()
+   const [cookies] = useCookies(['session'])
 
    const mainMenuItems = [
       {
@@ -83,7 +85,13 @@ const HomePage = ({ actions, history, state }) => {
       >
          <List>
             {mainMenuItems.map((item, idx) => (
-               <ListItem key={idx} button dense divider onClick={item.onClick}>
+               <ListItem
+                  key={idx}
+                  button
+                  dense
+                  selected={activeMenu === item.name ? true : false}
+                  onClick={item.onClick}
+               >
                   {item.avatar && <Avatar>{item.avatar}</Avatar>}
                   {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
                   <ListItemText
@@ -127,7 +135,7 @@ const HomePage = ({ actions, history, state }) => {
       >
          <List>
             {profileMenuItems.map((item, idx) => (
-               <ListItem key={idx} button dense divider onClick={item.onClick}>
+               <ListItem key={idx} button dense onClick={item.onClick}>
                   {item.avatar && <Avatar>{item.avatar}</Avatar>}
                   {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
                   <ListItemText
@@ -140,16 +148,27 @@ const HomePage = ({ actions, history, state }) => {
       </Menu>
    )
 
-   const profileMenuButton = (
-      <IconButton
-         className={classes.appBarProfileMenuButton}
-         name="profileMenuButton"
-         open={Boolean(anchorElProfileMenu)}
-         onClick={e => handleMenuOpen(e, 'profile')}
-      >
-         <AccountCircle />
-      </IconButton>
-   )
+   const profileMenuButton = () => {
+      const session = cookies.session
+      if (session.photoURL) {
+         return (
+            <IconButton onClick={e => handleMenuOpen(e, 'profile')}>
+               <Avatar alt={session.displayName} src={session.photoURL} />
+            </IconButton>
+         )
+      } else {
+         return (
+            <IconButton
+               className={classes.appBarProfileMenuButton}
+               name="profileMenuButton"
+               open={Boolean(anchorElProfileMenu)}
+               onClick={e => handleMenuOpen(e, 'profile')}
+            >
+               <AccountCircle />
+            </IconButton>
+         )
+      }
+   }
 
    const menus = {
       mainMenu: {
@@ -158,7 +177,7 @@ const HomePage = ({ actions, history, state }) => {
       },
       profileMenu: {
          menu: profileMenu,
-         button: profileMenuButton,
+         button: profileMenuButton(),
       },
    }
 
