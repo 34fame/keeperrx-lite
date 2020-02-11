@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import _ from 'lodash'
-import { useCookies } from 'react-cookie'
 
 import AdverseEventsPage from './adverse-events-page'
 
@@ -32,12 +31,6 @@ const AdverseEvents = ({ history, state }) => {
    }, [adverseEvents])
 
    const scrubAdverseEvents = () => {
-      console.log(
-         'adverse-events-container',
-         'scrubAdverseEvents',
-         'adverseEvents',
-         adverseEvents
-      )
       if (_.pull(Object.keys(adverseEvents), 'meta').length !== 1) {
          return
       }
@@ -68,12 +61,6 @@ const AdverseEvents = ({ history, state }) => {
          })
          scrubbedAdverseEvents.events.push(scrubbedEvent)
       })
-      console.log(
-         'adverse-events-container',
-         'scrubAdverseEvents',
-         'scrubbedAdverseEvents',
-         scrubbedAdverseEvents
-      )
       return scrubbedAdverseEvents
    }
 
@@ -105,12 +92,6 @@ const AdverseEvents = ({ history, state }) => {
          .catch(err => {
             console.error('callGetAdverseEvents', 'error', err)
          })
-      console.log(
-         'adverse-events-container',
-         'callGetAdverseEvents',
-         'adverseEventsResult',
-         adverseEventsResult
-      )
       setAdverseEvents(adverseEventsResult)
    }
 

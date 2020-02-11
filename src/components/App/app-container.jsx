@@ -9,6 +9,7 @@ import { LoadingPage } from '../../core'
 import Public from '../Public'
 import Private from '../Private'
 
+import { logEvent } from '../../core'
 import constants from '../../constants'
 
 library.add(fab)
@@ -52,9 +53,17 @@ const App = ({ history }) => {
    }
 
    const initSession = async session => {
-      await saveUserToDatabase(session.providerData[0])
-      setCookie('session', session.providerData[0], { path: routes.root })
+      let userSession = session.providerData[0]
+      userSession.lastSignInTime = session.metadata.lastSignInTime
+      await saveUserToDatabase(userSession)
+      setCookie('session', userSession, { path: routes.root })
       removeCookie('authenticating', { path: '/' })
+      logEvent({
+         eventType: 'login',
+         perpetratorId: userSession.uid,
+         targetId: userSession.uid,
+         details: userSession,
+      })
    }
 
    const propsLoadingPage = {

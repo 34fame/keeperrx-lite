@@ -50,6 +50,7 @@ const Home = ({ history }) => {
       setActiveMenu(name)
       setActiveState('get')
       handleMenuClose('main')
+      handleMenuClose('profile')
       history.push(routes[name])
    }
 
