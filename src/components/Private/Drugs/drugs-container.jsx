@@ -10,6 +10,7 @@ import {
    saveFirestoreObject,
 } from '../../../services/firebase'
 import constants from '../../../constants'
+import { logEvent } from '../../../core'
 
 const Drugs = ({ actions, history, state }) => {
    const { routes } = constants
@@ -32,6 +33,7 @@ const Drugs = ({ actions, history, state }) => {
    const [expanded] = useState(false)
 
    useEffect(() => {
+      handleSetUserPreferences()
       handleDrugsGet()
    }, [])
 
@@ -55,16 +57,26 @@ const Drugs = ({ actions, history, state }) => {
       }
    }, [contentToolbarSearchTerm])
 
+   const handleSetUserPreferences = async () => {
+      const userSession = cookies.session
+      await getFirestoreObjects({
+         collection: 'users',
+         where: [['uid', '==', userSession.uid]],
+      }).then(users => {
+         setContentToolbarDisplaySetting(users[0].preferences.contentToolbar)
+      })
+   }
+
    const handleContentToolbarDisplayClick = async name => {
       const userSession = cookies.session
       const document = {
          uid: userSession.uid,
-         contentToolbarPreference: name,
+         'preferences.contentToolbar': name,
       }
       await saveFirestoreObject({
          collection: 'users',
          document,
-         method: 'udpate',
+         method: 'update',
       })
       setContentToolbarDisplaySetting(name)
    }
@@ -74,7 +86,7 @@ const Drugs = ({ actions, history, state }) => {
       setContentToolbarSearchTerm(value)
    }
 
-   const removeFromDatabase = async (uid, drugs) => {
+   const removeFromDatabase = async (uid, drugs, removedDrug) => {
       let document = {
          uid,
          drugs,
@@ -86,10 +98,24 @@ const Drugs = ({ actions, history, state }) => {
          method: 'update',
       })
          .then(result => {
+            logEvent({
+               eventType: 'remove-drug',
+               perpetratorId: uid,
+               targetId: uid,
+               details: removedDrug,
+            })
             return result
          })
          .catch(err => {
             console.log('drugs-add-container', 'saveToDatabase', 'err', err)
+            logEvent({
+               severity: 'error',
+               eventType: 'remove-drug',
+               perpetratorId: uid,
+               targetId: uid,
+               success: false,
+               details: removedDrug,
+            })
             return false
          })
    }
@@ -103,8 +129,9 @@ const Drugs = ({ actions, history, state }) => {
 
       if (user[0] && user[0].drugs) {
          let currentDrugs = user[0].drugs
+         let removedDrug = currentDrugs[rxcui]
          delete currentDrugs[rxcui]
-         await removeFromDatabase(userSession.uid, currentDrugs)
+         await removeFromDatabase(userSession.uid, currentDrugs, removedDrug)
       }
 
       handleDrugsGet()
@@ -113,6 +140,10 @@ const Drugs = ({ actions, history, state }) => {
    const handleDrugsDetail = () => {}
 
    const handleDrugsGet = async () => {
+      if (!cookies.session) {
+         return
+      }
+
       let drugs = []
       let userSession = cookies.session
       let user = await getFirestoreObjects({

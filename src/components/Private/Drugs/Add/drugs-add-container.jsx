@@ -8,8 +8,8 @@ import {
    getFirestoreObjects,
    saveFirestoreObject,
 } from '../../../../services/firebase'
+import { logEvent } from '../../../../core'
 import constants from '../../../../constants'
-import { sortObjectArray } from '../../../../core'
 
 const DrugsAdd = ({ actions, history, state }) => {
    const { routes, services } = constants
@@ -168,10 +168,24 @@ const DrugsAdd = ({ actions, history, state }) => {
          method: 'update',
       })
          .then(result => {
+            logEvent({
+               eventType: 'add-drug',
+               perpetratorId: userSession.uid,
+               targetId: userSession.uid,
+               details: drug,
+            })
             return result
          })
          .catch(err => {
             console.log('drugs-add-container', 'saveToDatabase', 'err', err)
+            logEvent({
+               severity: 'error',
+               eventType: 'add-drug',
+               perpetratorId: userSession.uid,
+               targetId: userSession.uid,
+               success: false,
+               details: drug,
+            })
             return false
          })
    }

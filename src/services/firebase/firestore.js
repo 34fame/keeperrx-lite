@@ -3,16 +3,19 @@ import firebase from './init'
 const firestoreDb = firebase.firestore()
 
 const usersRef = firestoreDb.collection('users')
+const eventLogsRef = firestoreDb.collection('eventLogs')
 
 const getFirestoreObjects = async props => {
-   const { collection, where, orderBy } = props
-
+   const { collection, where, orderBy, limit, startAt, endAt } = props
    let ref = null
    let docs = []
 
    switch (collection) {
       case 'users':
          ref = usersRef
+         break
+      case 'eventLogs':
+         ref = eventLogsRef
          break
       default:
    }
@@ -31,6 +34,18 @@ const getFirestoreObjects = async props => {
       })
    }
 
+   if (limit) {
+      query = query.limit(limit)
+   }
+
+   if (startAt) {
+      query = query.startAt(startAt)
+   }
+
+   if (endAt) {
+      query = query.endAt(endAt)
+   }
+
    await query
       .get()
       .then(snapshot => {
@@ -42,7 +57,6 @@ const getFirestoreObjects = async props => {
          })
       })
       .catch(err => {
-         docs = false
          console.error('db', 'getFirestoreObject', 'err', err)
       })
 
@@ -54,13 +68,18 @@ const saveFirestoreObject = async props => {
    let ref = null
    let saveObject = {
       ...document,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      timestamp: document.timestamp
+         ? document.timestamp
+         : firebase.firestore.FieldValue.serverTimestamp(),
    }
    switch (collection) {
       case 'users':
          ref = usersRef
          ref = ref.doc(saveObject.uid)
          break
+      case 'eventLogs':
+         ref = eventLogsRef
+      // ref = ref.doc(saveObject.id)
       default:
    }
 
@@ -83,7 +102,7 @@ const saveFirestoreObject = async props => {
       })
       .catch(err => {
          console.error(
-            'db.js',
+            'firestore.js',
             'saveFirestoreObject',
             'err',
             JSON.stringify(err)
@@ -101,6 +120,9 @@ const deleteFirestoreObject = async props => {
       case 'users':
          ref = usersRef.doc(id)
          break
+      case 'eventLogs':
+         ref = eventLogsRef.doc(id)
+         break
       default:
    }
 
@@ -112,7 +134,7 @@ const deleteFirestoreObject = async props => {
       .catch(err => {
          doc = false
          console.error(
-            'db.js',
+            'firestore.js',
             'deleteFirestoreObject',
             'err',
             JSON.stringify(err)
