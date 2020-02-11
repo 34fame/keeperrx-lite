@@ -7,7 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-const HomeTemplate = ({ content, menus }) => {
+const HomeTemplate = ({ content, menus, HelpButton }) => {
    const { mainMenu, profileMenu } = menus
    const theme = useTheme()
    const useStyles = makeStyles({
@@ -41,6 +41,7 @@ const HomeTemplate = ({ content, menus }) => {
                      <span className={classes.appBarBrandLite}>Lite</span>
                   </span>
                </Typography>
+               <Box component="span">{HelpButton}</Box>
                <Box component="span">{profileMenu.button}</Box>
             </Toolbar>
          </AppBar>
