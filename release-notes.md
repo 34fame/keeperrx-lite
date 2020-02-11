@@ -1,5 +1,14 @@
 # Release Notes
 
+## 0.7.0
+
+-  Save content toolbar view as stateful preference in Firestore
+-  Save event logs to Firestore
+-  Provide basic view of event logs
+-  Log add drug events
+-  Log remove drug events
+-  Use session storage to cache recent queries
+
 ## 0.6.1
 
 ### Bug Fixes

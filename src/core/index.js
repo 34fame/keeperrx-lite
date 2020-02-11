@@ -5,7 +5,14 @@ import {
    LoadingPage,
 } from './components'
 
-import { getSorting, sortDesc, sortObjectArray, sortStable } from './js'
+import {
+   getSorting,
+   groupByDay,
+   logEvent,
+   sortDesc,
+   sortObjectArray,
+   sortStable,
+} from './js'
 
 export {
    EnhancedTable,
@@ -13,6 +20,8 @@ export {
    EnhancedTableToolbar,
    LoadingPage,
    getSorting,
+   groupByDay,
+   logEvent,
    sortDesc,
    sortObjectArray,
    sortStable,

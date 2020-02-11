@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import LocalPharmacy from '@material-ui/icons/LocalPharmacy'
 import Menu from '@material-ui/core/Menu'
+import DateRangeIcon from '@material-ui/icons/DateRange'
 import MenuIcon from '@material-ui/icons/Menu'
 import NotificationsActive from '@material-ui/icons/NotificationsActive'
 import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew'
@@ -21,6 +22,7 @@ import Drugs from '../Drugs'
 import DrugsAdd from '../Drugs/Add'
 import Interactions from '../Interactions'
 import AdverseEvents from '../AdverseEvents'
+import EventLogs from '../EventLogs'
 
 const HomePage = ({ actions, history, state }) => {
    const {
@@ -117,6 +119,13 @@ const HomePage = ({ actions, history, state }) => {
 
    const profileMenuItems = [
       {
+         icon: <DateRangeIcon />,
+         textPrimary: 'Event Logs',
+         textSecondary: 'View log of your actions',
+         onClick: () => handleMenuItemClick('eventLogs'),
+         onClose: () => handleMenuClose('profile'),
+      },
+      {
          icon: <PowerSettingsNew />,
          textPrimary: 'Logout',
          textSecondary: 'Force authentication on next use',
@@ -181,25 +190,21 @@ const HomePage = ({ actions, history, state }) => {
       },
    }
 
-   const propsDrugs = { actions, history, state }
-
-   const propsDrugsAdd = { actions, history, state }
-
-   const propsInteractions = { actions, history, state }
-
-   const propsAdverseEvents = { actions, history, state }
+   const propsContent = { actions, history, state }
 
    const determineContent = () => {
       switch (activeMenu) {
          case 'drugs':
             if (activeState === 'add') {
-               return <DrugsAdd {...propsDrugsAdd} />
+               return <DrugsAdd {...propsContent} />
             }
-            return <Drugs {...propsDrugs} />
+            return <Drugs {...propsContent} />
          case 'interactions':
-            return <Interactions {...propsInteractions} />
+            return <Interactions {...propsContent} />
          case 'adverseEvents':
-            return <AdverseEvents {...propsAdverseEvents} />
+            return <AdverseEvents {...propsContent} />
+         case 'eventLogs':
+            return <EventLogs {...propsContent} />
          default:
       }
    }

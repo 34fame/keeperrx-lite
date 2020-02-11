@@ -5,6 +5,7 @@ const constants = {
       drugs: '/private/drugs',
       interactions: '/private/interactions',
       adverseEvents: '/private/adverse-events',
+      eventLogs: '/private/event-logs',
       logout: '/private/logout',
       login: '/public/login',
       loginRedirect: '/public/login-redirect',
