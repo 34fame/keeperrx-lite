@@ -18,12 +18,11 @@ const DrugsTemplate = ({ actions, content, state }) => {
             {/* Content Toolbar */}
             <ContentToolbar {...propsContentBar} />
             {/* Page Title */}
-            <Box mt={4}>
-               <Grid container justify="space-between" spacing={4}>
-                  <Grid item>{pageTitle}</Grid>
-                  {/* Add Button */}
-                  <Grid item>{addButton}</Grid>
-               </Grid>
+         </Container>
+         <Container maxWidth="md">
+            <Box mt={4} display="flex" justifyContent="space-between">
+               {pageTitle}
+               {addButton}
             </Box>
          </Container>
          <Container

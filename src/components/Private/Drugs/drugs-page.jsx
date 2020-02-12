@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Avatar from '@material-ui/core/Avatar'
 import Box from '@material-ui/core/Box'
@@ -23,6 +23,7 @@ import DeleteForever from '@material-ui/icons/DeleteForever'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import DrugsTemplate from './drugs-template'
+import DrugDetails from './Details'
 
 import constants from '../../../constants'
 
@@ -31,6 +32,8 @@ const DrugsPage = ({ actions, state }) => {
    const { handleAddClick, handleDrugsDelete } = actions
    const { baseUrl } = constants.services.aws.s3
    const { images } = constants
+   const [openDetails, setOpenDetails] = useState(false)
+   const [drugDetails, setDrugDetails] = useState('')
    const theme = useTheme()
    const useStyles = makeStyles({
       root: {
@@ -54,11 +57,9 @@ const DrugsPage = ({ actions, state }) => {
    const classes = useStyles()
 
    const pageTitle = (
-      <Box>
-         <Typography variant="h5" paragraph>
-            Drug List
-         </Typography>
-      </Box>
+      <Typography variant="h5" paragraph>
+         Drug List
+      </Typography>
    )
 
    const addButton = (
@@ -87,6 +88,7 @@ const DrugsPage = ({ actions, state }) => {
          }
          let drugItem = {
             key: idx,
+            rxcui: item.rxcui,
             avatar: avatar,
             mediaAvatar: mediaAvatar,
             textPrimary: item.textPrimary,
@@ -105,6 +107,11 @@ const DrugsPage = ({ actions, state }) => {
          return drugItem
       })
       return drugItems
+   }
+
+   const handleListItemClick = rxcui => {
+      console.log('rxcui', rxcui)
+      setDrugDetails(rxcui)
    }
 
    const contentEmpty = (
@@ -132,7 +139,13 @@ const DrugsPage = ({ actions, state }) => {
       return (
          <List>
             {drugItems.map((item, idx) => (
-               <ListItem key={idx} button dense divider>
+               <ListItem
+                  key={idx}
+                  button
+                  dense
+                  divider
+                  onClick={() => handleListItemClick(item.rxcui)}
+               >
                   {item.avatar && (
                      <ListItemAvatar>
                         <Avatar>{item.avatar}</Avatar>
@@ -223,7 +236,20 @@ const DrugsPage = ({ actions, state }) => {
       },
    }
 
-   return <DrugsTemplate {...propsDrugsTemplate} />
+   const propsDrugDetails = {
+      state: {
+         open: openDetails,
+         rxcui: drugDetails,
+         setOpen: setOpenDetails,
+      },
+   }
+
+   return (
+      <React.Fragment>
+         <DrugsTemplate {...propsDrugsTemplate} />
+         <DrugDetails {...propsDrugDetails} />
+      </React.Fragment>
+   )
 }
 
 DrugsPage.propTypes = {
