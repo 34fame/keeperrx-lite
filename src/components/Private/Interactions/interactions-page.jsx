@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
@@ -12,6 +13,12 @@ import { EnhancedTable } from '../../../core'
 const InteractionsPage = ({ actions, state }) => {
    const { handleDrugsToggle } = actions
    const { drugs, interactions, loading } = state
+
+   const pageTitle = (
+      <Typography variant="h5" paragraph>
+         Drug Interactions
+      </Typography>
+   )
 
    const Empty = (
       <Typography variant="body2">No interactions were found.</Typography>
@@ -69,6 +76,7 @@ const InteractionsPage = ({ actions, state }) => {
             label: 'Description',
          },
       ],
+      title: 'As Reported by the National Library of Medicine ',
       rows: interactions.interactions,
       loading,
       Empty,
@@ -78,6 +86,7 @@ const InteractionsPage = ({ actions, state }) => {
 
    const propsInteractionsTemplate = {
       state: {
+         pageTitle,
          drugToggles,
          nlmDisclaimer,
          interactionsTable,

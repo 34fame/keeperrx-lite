@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const EnhancedTable = props => {
-   const { headCells, rows = [], loading, Empty } = props
+   const { headCells, rows = [], title = '', loading, Empty } = props
    const classes = useStyles()
    const [order, setOrder] = useState('asc')
    const [orderBy, setOrderBy] = useState('drug1')
@@ -86,7 +86,11 @@ const EnhancedTable = props => {
       rowCount: rows.length,
    }
 
-   const propsEnhancedTableToolbar = {}
+   const propsEnhancedTableToolbar = {
+      state: {
+         title,
+      },
+   }
 
    return (
       <Container maxWidth="xl">

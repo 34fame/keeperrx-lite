@@ -12,14 +12,15 @@ const useToolbarStyles = makeStyles(theme => ({
    },
 }))
 
-const EnhancedTableToolbar = props => {
+const EnhancedTableToolbar = ({ state }) => {
+   const { title } = state
    // const theme = useTheme()
    const classes = useToolbarStyles()
 
    return (
       <Toolbar>
          <Typography className={classes.title} variant="h6" id="tableTitle">
-            Drug Interactions
+            {title}
          </Typography>
 
          <Tooltip title="Filter list">

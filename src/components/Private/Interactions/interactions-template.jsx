@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container'
 
 const InteractionsTemplate = ({ state }) => {
    const {
+      pageTitle,
       drugToggles,
       nlmDisclaimer,
       sourceDisclaimer,
@@ -13,6 +14,7 @@ const InteractionsTemplate = ({ state }) => {
 
    return (
       <Box>
+         <Container maxWidth="md">{pageTitle}</Container>
          <Box m={4}>
             <Container maxWidth="lg">{drugToggles}</Container>
          </Box>

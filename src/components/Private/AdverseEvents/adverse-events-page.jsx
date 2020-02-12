@@ -16,6 +16,12 @@ const AdverseEventsPage = ({ actions, state }) => {
    const { adverseEvents = {}, loading, values } = state
    const { startDate, endDate, rxcui } = values
 
+   const pageTitle = (
+      <Typography variant="h5" paragraph>
+         Adverse Events
+      </Typography>
+   )
+
    const StartDate = (
       <TextField
          fullWidth
@@ -106,6 +112,7 @@ const AdverseEventsPage = ({ actions, state }) => {
             label: 'Taken With',
          },
       ],
+      title: 'As Reported to the Federal Drug Administration',
       rows: adverseEvents.events,
       Empty,
    }
@@ -114,6 +121,7 @@ const AdverseEventsPage = ({ actions, state }) => {
 
    const propsAdverseEventsTemplate = {
       state: {
+         pageTitle,
          loading,
          AdverseEventsTable,
          StartDate,
