@@ -17,6 +17,12 @@
 
 -  Table header for Adverse Events says Drug Interactions
 
+## 0.7.2
+
+### Bug Fixes
+
+-  New users not being created in database
+
 ## 0.7.1
 
 ### Enhancements
