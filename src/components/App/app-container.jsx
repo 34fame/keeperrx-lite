@@ -80,9 +80,8 @@ const App = ({ history }) => {
             if (response && response.length === 1) {
                exists = true
             }
+            return saveUser(session, exists)
          })
-
-         return saveUser(session, exists)
       }
 
       return userExists(session)
