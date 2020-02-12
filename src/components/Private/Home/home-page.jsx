@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import LocalPharmacy from '@material-ui/icons/LocalPharmacy'
 import Menu from '@material-ui/core/Menu'
+import ContactSupportIcon from '@material-ui/icons/ContactSupport'
 import DateRangeIcon from '@material-ui/icons/DateRange'
 import MenuIcon from '@material-ui/icons/Menu'
 import NotificationsActive from '@material-ui/icons/NotificationsActive'
@@ -179,6 +180,16 @@ const HomePage = ({ actions, history, state }) => {
       }
    }
 
+   const HelpButton = (
+      <IconButton
+         className={classes.appBarProfileMenuButton}
+         href="https://github.com/34fame/keeperrx-lite-issues/issues"
+         target="_blank"
+      >
+         <ContactSupportIcon />
+      </IconButton>
+   )
+
    const menus = {
       mainMenu: {
          menu: mainMenu,
@@ -214,6 +225,7 @@ const HomePage = ({ actions, history, state }) => {
    const propsHomeTemplate = {
       content,
       menus,
+      HelpButton,
    }
 
    return <HomeTemplate {...propsHomeTemplate} />
