@@ -6,6 +6,14 @@
 
 -  Provide a detailed drug view
 
+## 0.7.3
+
+### Bug Fixes
+
+-  Not recognizing existing user at login
+
+## 0.7.2
+
 ### Enhancements
 
 -  Standardize content header for Drug List
@@ -16,8 +24,6 @@
 ### Bug Fixes
 
 -  Table header for Adverse Events says Drug Interactions
-
-## 0.7.2
 
 ### Bug Fixes
 
