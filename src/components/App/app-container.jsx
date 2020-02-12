@@ -4,7 +4,11 @@ import { useCookies } from 'react-cookie'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 
-import { firebaseAuth, saveFirestoreObject } from '../../services/firebase'
+import {
+   firebaseAuth,
+   getFirestoreObjects,
+   saveFirestoreObject,
+} from '../../services/firebase'
 import { LoadingPage } from '../../core'
 import Public from '../Public'
 import Private from '../Private'
@@ -38,18 +42,50 @@ const App = ({ history }) => {
    }, [authenticated])
 
    const saveUserToDatabase = async session => {
-      await saveFirestoreObject({
-         collection: 'users',
-         document: session,
-         method: 'update',
-      })
-         .then(result => {
-            return result
+      const saveUser = async (session, exists) => {
+         let user = session
+         let method = 'update'
+
+         if (!exists) {
+            method = 'set'
+            user = {
+               ...session,
+               drugs: {},
+               preferences: {
+                  contentToolbar: 'grid',
+                  maxLimit: 15,
+               },
+            }
+         }
+         await saveFirestoreObject({
+            collection: 'users',
+            document: user,
+            method: method,
          })
-         .catch(err => {
-            console.log('app-container', 'saveUserToDatabase', 'err', err)
-            return false
+            .then(result => {
+               return result
+            })
+            .catch(err => {
+               console.log('app-container', 'saveUserToDatabase', 'err', err)
+               return false
+            })
+      }
+
+      const userExists = async session => {
+         let exists = false
+         getFirestoreObjects({
+            collection: 'users',
+            where: [['uid', '==', session.uid]],
+         }).then(response => {
+            if (response && response.length === 1) {
+               exists = true
+            }
          })
+
+         return saveUser(session, exists)
+      }
+
+      return userExists(session)
    }
 
    const initSession = async session => {
