@@ -6,6 +6,12 @@
 
 -  Provide a detailed drug view
 
+## 0.7.3
+
+### Bug Fixes
+
+-  Not recognizing existing user at login
+
 ## 0.7.2
 
 ### Enhancements
