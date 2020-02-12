@@ -1,6 +1,38 @@
 # Release Notes
 
+## 0.8.0 (planned)
+
+### Features
+
+-  Provide a detailed drug view
+
+### Enhancements
+
+-  Standardize content header for Drug List
+-  Standardize content header for Drug Interactions
+-  Standardize content header for Adverse Events
+-  Table header now specificies the database source of the data
+
+### Bug Fixes
+
+-  Table header for Adverse Events says Drug Interactions
+
+## 0.7.2
+
+### Bug Fixes
+
+-  New users not being created in database
+
+## 0.7.1
+
+### Enhancements
+
+-  Created new Github repository for KeeperRx Lite support
+-  Add "Contact Support" button that links to support site
+
 ## 0.7.0
+
+### Features
 
 -  Save content toolbar view as stateful preference in Firestore
 -  Save event logs to Firestore
@@ -27,5 +59,3 @@
 ### Enhancements
 
 -  Removed dividers from menus
-
-### Bug Fixes

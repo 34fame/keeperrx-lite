@@ -9,19 +9,10 @@ import {
    getFirestoreObjects,
    saveFirestoreObject,
 } from '../../../services/firebase'
-import constants from '../../../constants'
 import { logEvent } from '../../../core'
 
-const Drugs = ({ actions, history, state }) => {
-   const { routes } = constants
-
-   const { activeMenu, activeState } = state
+const Drugs = ({ actions }) => {
    const { handleAddClick, setActiveState } = actions
-
-   if (activeMenu !== 'drugs' || activeState !== 'get') {
-      history.push(routes.root)
-   }
-
    const [cookies] = useCookies(['session'])
    const [
       contentToolbarDisplaySetting,
@@ -137,8 +128,6 @@ const Drugs = ({ actions, history, state }) => {
       handleDrugsGet()
    }
 
-   const handleDrugsDetail = () => {}
-
    const handleDrugsGet = async () => {
       if (!cookies.session) {
          return
@@ -168,7 +157,6 @@ const Drugs = ({ actions, history, state }) => {
          handleContentToolbarDisplayClick,
          handleContentToolbarSearchChange,
          handleDrugsDelete,
-         handleDrugsDetail,
          setActiveState,
       },
       state: {

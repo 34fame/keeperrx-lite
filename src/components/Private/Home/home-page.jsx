@@ -183,7 +183,7 @@ const HomePage = ({ actions, history, state }) => {
    const HelpButton = (
       <IconButton
          className={classes.appBarProfileMenuButton}
-         href="https://github.com/34fame/keeperrx-lite-issues/issues"
+         href="https://github.com/34fame/keeperrx-lite-support"
          target="_blank"
       >
          <ContactSupportIcon />
