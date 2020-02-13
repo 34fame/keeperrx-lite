@@ -98,7 +98,7 @@ const Drugs = ({ actions }) => {
             return result
          })
          .catch(err => {
-            console.log('drugs-add-container', 'saveToDatabase', 'err', err)
+            console.error('drugs-add-container', 'saveToDatabase', 'err', err)
             logEvent({
                severity: 'error',
                eventType: 'remove-drug',

@@ -168,7 +168,6 @@ const Interactions = ({ history, state }) => {
          drugs: drugsUpdated,
       }
       await saveFirestoreObject({ collection: 'users', document })
-      console.log('drugsUpdated', drugsUpdated)
       drugsUpdated = cookies.drugs
       drugsUpdated.map(drug => {
          if (drug.rxcui === rxcui) {

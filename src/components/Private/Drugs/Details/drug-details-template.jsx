@@ -12,9 +12,7 @@ const DrugDetailsTemplate = ({ state }) => {
    return (
       <Box p={4}>
          <Dialog open={open} maxWidth="md" fullWidth>
-            <DialogContent>
-               <DialogContentText>{content}</DialogContentText>
-            </DialogContent>
+            <DialogContent>{content}</DialogContent>
             <DialogActions>{closeButton}</DialogActions>
          </Dialog>
       </Box>
