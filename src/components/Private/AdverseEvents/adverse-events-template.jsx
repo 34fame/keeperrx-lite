@@ -7,6 +7,7 @@ import Container from '@material-ui/core/Container'
 const AdverseEventsTemplate = ({ state }) => {
    const {
       pageTitle,
+      pageInstructions,
       loading,
       AdverseEventsTable,
       StartDate,
@@ -61,6 +62,7 @@ const AdverseEventsTemplate = ({ state }) => {
          <Box p={2} display="flex" justifyContent="center">
             <Container maxWidth="lg">
                <Box>{content}</Box>
+               <Box>{pageInstructions}</Box>
             </Container>
          </Box>
       </Box>

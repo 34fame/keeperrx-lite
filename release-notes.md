@@ -1,6 +1,29 @@
 # Release Notes
 
+## 1.0.0
+
+### Enhancements
+
+-  Cleaning up to prepare for first release
+   -  Remove 'Save Unlisted Drug' option (causes problems and confusion)
+   -  Add instructions to Adding a drug page
+   -  Add instructions to Drug Interactions page
+   -  Add instructions to the Adverse Events page
+   -  Click drugs in card view shows details
+   -  Preference error on initial login when no drugs are defined
+   -  Display NLM Disclaimer on Drug Interactions page
+   -  Update Empty verbiage for Drug Interactions
+   -  Add loading status to Prescription Drugs
+   -  Add loading status to Drug Interactions
+   -  Add loading status to Adverse Events
+
+### Bug Fixes
+
+-  Error when using Adverse Events drug toggle
+
 ## 0.9.0
+
+### Enhancements
 
 -  Update Adverse Events inputs to be more usable
 

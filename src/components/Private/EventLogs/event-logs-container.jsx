@@ -153,10 +153,6 @@ const EventLogs = ({ history, state }) => {
       message: 'Loading events...',
    }
 
-   if (loading) {
-      return <LoadingPage {...propsLoadingPage} />
-   }
-
    const propsEventLogsPage = {
       state: {
          loading,
@@ -167,7 +163,11 @@ const EventLogs = ({ history, state }) => {
       },
    }
 
-   return <EventLogsPage {...propsEventLogsPage} />
+   if (loading) {
+      return <LoadingPage {...propsLoadingPage} />
+   } else {
+      return <EventLogsPage {...propsEventLogsPage} />
+   }
 }
 
 export default EventLogs

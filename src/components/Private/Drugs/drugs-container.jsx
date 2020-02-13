@@ -9,7 +9,7 @@ import {
    getFirestoreObjects,
    saveFirestoreObject,
 } from '../../../services/firebase'
-import { logEvent } from '../../../core'
+import { logEvent, LoadingPage } from '../../../core'
 
 const Drugs = ({ actions }) => {
    const { handleAddClick, setActiveState } = actions
@@ -22,6 +22,7 @@ const Drugs = ({ actions }) => {
    const [drugs, setDrugs] = useState([])
    const [drugsFiltered, setDrugsFiltered] = useState([])
    const [expanded] = useState(false)
+   const [loading, setLoading] = useState(true)
 
    useEffect(() => {
       handleSetUserPreferences()
@@ -54,7 +55,11 @@ const Drugs = ({ actions }) => {
          collection: 'users',
          where: [['uid', '==', userSession.uid]],
       }).then(users => {
-         setContentToolbarDisplaySetting(users[0].preferences.contentToolbar)
+         setContentToolbarDisplaySetting(
+            users[0].preferences && users[0].preferences.contentToolbar
+               ? users[0].preferences.contentToolbar
+               : 'grid'
+         )
       })
    }
 
@@ -149,6 +154,12 @@ const Drugs = ({ actions }) => {
       }
       setDrugs(drugs)
       setDrugsFiltered(drugs)
+      setLoading(false)
+   }
+
+   const propsLoadingPage = {
+      open: loading,
+      message: 'Loading drugs...',
    }
 
    const propsDrugsPage = {
@@ -167,7 +178,11 @@ const Drugs = ({ actions }) => {
       },
    }
 
-   return <DrugsPage {...propsDrugsPage} />
+   if (loading) {
+      return <LoadingPage {...propsLoadingPage} />
+   } else {
+      return <DrugsPage {...propsDrugsPage} />
+   }
 }
 
 Drugs.propTypes = {

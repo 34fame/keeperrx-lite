@@ -7,6 +7,7 @@ import {
    getFirestoreObjects,
    saveFirestoreObject,
 } from '../../../services/firebase'
+import { LoadingPage } from '../../../core'
 import constants from '../../../constants'
 
 const Interactions = ({ history, state }) => {
@@ -161,23 +162,19 @@ const Interactions = ({ history, state }) => {
       drugsUpdated[rxcui].include = !drugsUpdated[rxcui].include
       setDrugs(drugsUpdated)
 
-      // TODO update drug on user collection in firestore
       let userSession = cookies.session
       let document = {
          uid: userSession.uid,
          drugs: drugsUpdated,
       }
       await saveFirestoreObject({ collection: 'users', document })
-      drugsUpdated = cookies.drugs
-      drugsUpdated.map(drug => {
-         if (drug.rxcui === rxcui) {
-            drug.include = !drug.include
-            return drug
-         }
-      })
-      setCookie('drugs', drugsUpdated, { path: '/' })
 
       callGetInteractions()
+   }
+
+   const propsLoadingPage = {
+      open: loading,
+      message: 'Loading drug interactions...',
    }
 
    const propsInteractionsPage = {
@@ -189,7 +186,11 @@ const Interactions = ({ history, state }) => {
       },
    }
 
-   return <InteractionsPage {...propsInteractionsPage} />
+   if (loading) {
+      return <LoadingPage {...propsLoadingPage} />
+   } else {
+      return <InteractionsPage {...propsInteractionsPage} />
+   }
 }
 
 export default Interactions

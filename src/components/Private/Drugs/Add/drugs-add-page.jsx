@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Autocomplete from '@material-ui/lab/Autocomplete'
+import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -48,29 +49,21 @@ const DrugsAdd = ({ actions, state }) => {
    )
 
    const pageInstructions = (
-      <ExpansionPanel>
-         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="body1" style={{ fontStyle: 'italic' }}>
-               Click here for help...
-            </Typography>
-         </ExpansionPanelSummary>
-         <ExpansionPanelDetails>
-            <Typography variant="body2" paragraph>
-               Start typing the name of a drug (brand or generic) and a search
-               of the National Library of Medicine will return the closest
-               matching results.
-            </Typography>
-            <Typography variant="body2" paragraph>
-               If you don't find a match either check your spelling or, if it
-               isn't a prescribed drug, you can save it as an unlisted drug.
-            </Typography>
-            <Typography variant="body2" paragraph>
-               If you find the drug you are looking for simply select it and
-               then choose the specific drug and strength (known as a drug
-               concept) from the drop down provided.
-            </Typography>
-         </ExpansionPanelDetails>
-      </ExpansionPanel>
+      <Box m={4}>
+         <Typography variant="body1" paragraph>
+            Start typing the name of a drug (brand or generic) in the "Drug
+            Name" field. A list of possible matches will be returned from the
+            National Library of Medicine. Be sure to select a drug name and not
+            an ingredient.
+         </Typography>
+         <Typography variant="body1" paragraph>
+            After you select the drug from the search results, click on the
+            "Drug Concept" field. This should contain a list of all applicable
+            drug forms for the drug you chose. If this list is empty please try
+            your search again. At this time there is not an option to save an
+            unlisted drug.
+         </Typography>
+      </Box>
    )
 
    const fuzzySearchField = (

@@ -20,8 +20,30 @@ const InteractionsPage = ({ actions, state }) => {
       </Typography>
    )
 
+   const pageInstructions = (
+      <Box m={4}>
+         <Typography variant="body1" paragraph>
+            This page queries the NLM for any drug interactions between any of
+            the drugs you have defined and selected above. You can toggle which
+            drugs to include by simply clicking on the toggle switch. To add
+            additional drugs to this list go back to the Prescription Drugs
+            page.
+         </Typography>
+         <Typography variant="body1" paragraph>
+            If you turn off all toggles but one, the report will show all drug
+            interactions for that remaining drug. In other words, all
+            interactions that include this drug will be shown.
+         </Typography>
+      </Box>
+   )
+
    const Empty = (
-      <Typography variant="body2">No interactions were found.</Typography>
+      <Box m={4}>
+         <Typography variant="body1">
+            No interactions were found. Either add a drug under Prescription
+            Drugs or enable additional drugs above.
+         </Typography>
+      </Box>
    )
 
    const drugToggles = (
@@ -43,15 +65,16 @@ const InteractionsPage = ({ actions, state }) => {
       </Grid>
    )
 
-   let nlmDisclaimer = ''
-   if (!loading && nlmDisclaimer.length > 0) {
-      nlmDisclaimer = (
+   const nlmDisclaimer = (
+      <Box m={4}>
          <Typography variant="caption" color="secondary">
             National Library of Medicine Disclaimer:{' '}
-            {interactions.nlmDisclaimer}
+            {interactions.nlmDisclaimer && interactions.nlmDisclaimer.length > 0
+               ? interactions.nlmDisclaimer
+               : ''}
          </Typography>
-      )
-   }
+      </Box>
+   )
 
    const propsEnhancedTable = {
       headCells: [
@@ -87,7 +110,9 @@ const InteractionsPage = ({ actions, state }) => {
    const propsInteractionsTemplate = {
       state: {
          pageTitle,
+         pageInstructions,
          drugToggles,
+         loading,
          nlmDisclaimer,
          interactionsTable,
       },
