@@ -76,7 +76,6 @@ const AdverseEvents = ({ history, state }) => {
       await fetch(endpoint, openfda.adverseEventsByRxcui.payload)
          .then(response => response.json())
          .then(response => {
-            console.log('response', response)
             if (response.error) {
                return []
             }

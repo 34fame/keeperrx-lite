@@ -110,7 +110,6 @@ const DrugsPage = ({ actions, state }) => {
    }
 
    const handleListItemClick = rxcui => {
-      console.log('rxcui', rxcui)
       setDrugDetails(rxcui)
    }
 

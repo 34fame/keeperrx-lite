@@ -38,7 +38,10 @@ const HomeTemplate = ({ content, menus, HelpButton }) => {
                      <span className={classes.appBarBrandSecondary}>
                         Rx
                      </span>{' '}
-                     <span className={classes.appBarBrandLite}>Lite</span>
+                     <span className={classes.appBarBrandLite}>Lite </span>
+                     <span className={classes.appBarBrandSecondary}>
+                        {process.env.NODE_ENV === 'development' ? 'dev' : ''}
+                     </span>
                   </span>
                </Typography>
                <Box component="span">{HelpButton}</Box>

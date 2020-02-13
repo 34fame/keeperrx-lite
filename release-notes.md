@@ -5,6 +5,7 @@
 ### Features
 
 -  Provide a detailed drug view
+-  Create development environment
 
 ## 0.7.3
 
