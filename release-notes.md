@@ -1,6 +1,10 @@
 # Release Notes
 
-## 0.8.0 (planned)
+## 0.9.0
+
+-  Update Adverse Events to be more usable
+
+## 0.8.0
 
 ### Features
 
