@@ -7,6 +7,7 @@ import { useCookies } from 'react-cookie'
 import AdverseEventsPage from './adverse-events-page'
 
 import { getFirestoreObjects } from '../../../services/firebase'
+import { LoadingPage } from '../../../core'
 import constants from '../../../constants'
 
 const AdverseEvents = ({ history, state }) => {
@@ -148,6 +149,11 @@ const AdverseEvents = ({ history, state }) => {
       }
    }
 
+   const propsLoadingPage = {
+      open: loading,
+      message: 'Loading adverse events...',
+   }
+
    const propsAdverseEventsPage = {
       actions: {
          handleOnChange,
@@ -162,11 +168,11 @@ const AdverseEvents = ({ history, state }) => {
       },
    }
 
-   return (
-      <React.Fragment>
-         <AdverseEventsPage {...propsAdverseEventsPage} />
-      </React.Fragment>
-   )
+   if (loading) {
+      return <LoadingPage {...propsLoadingPage} />
+   } else {
+      return <AdverseEventsPage {...propsAdverseEventsPage} />
+   }
 }
 
 AdverseEvents.propTypes = {

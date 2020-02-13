@@ -7,6 +7,7 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
+import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
 import Container from '@material-ui/core/Container'
@@ -183,22 +184,26 @@ const DrugsPage = ({ actions, state }) => {
             {drugItems.map((item, idx) => (
                <Box key={idx} p={2}>
                   <Card className={classes.root}>
-                     <CardHeader
-                        avatar={item.avatar}
-                        title={item.textPrimary}
-                        subheader={
-                           <Typography variant="caption">
-                              {item.textSecondary}
-                           </Typography>
-                        }
-                     />
-                     <CardMedia
-                        className={classes.media}
-                        // height="140px"
-                        image={item.mediaAvatar}
-                        title={item.textPrimary}
-                     />
-                     <CardContent></CardContent>
+                     <CardActionArea
+                        onClick={() => handleListItemClick(item.rxcui)}
+                     >
+                        <CardHeader
+                           avatar={item.avatar}
+                           title={item.textPrimary}
+                           subheader={
+                              <Typography variant="caption">
+                                 {item.textSecondary}
+                              </Typography>
+                           }
+                        />
+                        <CardMedia
+                           className={classes.media}
+                           // height="140px"
+                           image={item.mediaAvatar}
+                           title={item.textPrimary}
+                        />
+                        <CardContent></CardContent>
+                     </CardActionArea>
                      <CardActions disableSpacing>
                         {item.secondaryAction}
                      </CardActions>

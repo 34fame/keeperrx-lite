@@ -10,7 +10,7 @@ const DrugsAddTemplate = ({ state }) => {
       cancelButton,
       drugConceptSelector,
       fuzzySearchField,
-      // pageInstructions,
+      pageInstructions,
       pageTitle,
       saveButton,
    } = state
@@ -44,15 +44,15 @@ const DrugsAddTemplate = ({ state }) => {
             {/* Buttons */}
             <Grid container justify="flex-end" spacing={2}>
                {/* Allow Custom Drug Selector */}
-               <Grid item>{allowCustomDrugCheckbox}</Grid>
+               {/* <Grid item>{allowCustomDrugCheckbox}</Grid> */}
                {/* Cancel Button */}
                <Grid item>{cancelButton}</Grid>
                {/* Save Button */}
                <Grid item>{saveButton}</Grid>
             </Grid>
-            {/* <Grid container spacing={4}>
+            <Grid container spacing={4}>
                <Grid item>{pageInstructions}</Grid>
-            </Grid> */}
+            </Grid>
          </Container>
       </Box>
    )

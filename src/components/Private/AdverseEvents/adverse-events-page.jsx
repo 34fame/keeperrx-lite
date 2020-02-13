@@ -27,6 +27,22 @@ const AdverseEventsPage = ({ actions, state }) => {
       </Typography>
    )
 
+   const pageInstructions = (
+      <Box m={4}>
+         <Typography variant="body1" paragraph>
+            This page queries the FDA for adverse events within the date range
+            and drug you've selected. Adverse events tend to be updated
+            infrequently so if you aren't finding any events try setting the
+            Starting On date back as far as one year.
+         </Typography>
+         <Typography variant="body1" paragraph>
+            A maximum of 99 events can be returned at a time. If you see the
+            total number of results are at 99 then you may want to reduce the
+            time period specified.
+         </Typography>
+      </Box>
+   )
+
    const StartDate = (
       <DatePicker
          autoOk
@@ -154,6 +170,7 @@ const AdverseEventsPage = ({ actions, state }) => {
    const propsAdverseEventsTemplate = {
       state: {
          pageTitle,
+         pageInstructions,
          loading,
          AdverseEventsTable,
          StartDate,
