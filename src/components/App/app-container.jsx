@@ -66,7 +66,7 @@ const App = ({ history }) => {
                return result
             })
             .catch(err => {
-               console.log('app-container', 'saveUserToDatabase', 'err', err)
+               console.error('app-container', 'saveUserToDatabase', 'err', err)
                return false
             })
       }

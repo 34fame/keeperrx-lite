@@ -177,7 +177,7 @@ const DrugsAdd = ({ actions, history, state }) => {
             return result
          })
          .catch(err => {
-            console.log('drugs-add-container', 'saveToDatabase', 'err', err)
+            console.error('drugs-add-container', 'saveToDatabase', 'err', err)
             logEvent({
                severity: 'error',
                eventType: 'add-drug',
