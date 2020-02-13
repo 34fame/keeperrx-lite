@@ -3,18 +3,23 @@ import PropTypes from 'prop-types'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import MenuItem from '@material-ui/core/MenuItem'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import EventIcon from '@material-ui/icons/Event'
 import SearchIcon from '@material-ui/icons/Search'
+import TodayIcon from '@material-ui/icons/Today'
+import { DatePicker } from '@material-ui/pickers'
 
 import AdverseEventsTemplate from './adverse-events-template'
 import { EnhancedTable, LoadingPage } from '../../../core'
 
 const AdverseEventsPage = ({ actions, state }) => {
    const { handleOnChange, handleSearch } = actions
-   const { adverseEvents = {}, loading, values } = state
-   const { startDate, endDate, rxcui } = values
+   const { adverseEvents = {}, drugs, loading, values } = state
+   const { startDate, endDate, drug } = values
 
    const pageTitle = (
       <Typography variant="h5" paragraph>
@@ -23,24 +28,44 @@ const AdverseEventsPage = ({ actions, state }) => {
    )
 
    const StartDate = (
-      <TextField
+      <DatePicker
+         autoOk
+         format="MM-DD-YYYY"
          fullWidth
-         label="Start Date"
+         inputVariant="outlined"
+         label="Starting On"
          name="startDate"
-         variant="outlined"
          value={startDate}
-         onChange={e => handleOnChange(e)}
+         variant="inline"
+         onChange={e => handleOnChange(e, 'startDate')}
+         InputProps={{
+            startAdornment: (
+               <InputAdornment position="start">
+                  <TodayIcon />
+               </InputAdornment>
+            ),
+         }}
       />
    )
 
    const EndDate = (
-      <TextField
+      <DatePicker
+         autoOk
+         format="MM-DD-YYYY"
          fullWidth
-         label="End Date"
+         inputVariant="outlined"
+         label="Ending On"
          name="endDate"
-         variant="outlined"
          value={endDate}
-         onChange={e => handleOnChange(e)}
+         variant="inline"
+         onChange={e => handleOnChange(e, 'endDate')}
+         InputProps={{
+            startAdornment: (
+               <InputAdornment position="start">
+                  <EventIcon />
+               </InputAdornment>
+            ),
+         }}
       />
    )
 
@@ -49,10 +74,17 @@ const AdverseEventsPage = ({ actions, state }) => {
          fullWidth
          label="Drug"
          name="drug"
+         select
          variant="outlined"
-         value={rxcui}
+         value={drug}
          onChange={e => handleOnChange(e)}
-      />
+      >
+         {drugs.map(drug => (
+            <MenuItem key={drug.rxcui} value={drug.rxcui}>
+               {drug.textPrimary}
+            </MenuItem>
+         ))}
+      </TextField>
    )
 
    const Empty = (

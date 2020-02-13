@@ -2,33 +2,65 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import _ from 'lodash'
+import { useCookies } from 'react-cookie'
 
 import AdverseEventsPage from './adverse-events-page'
 
+import { getFirestoreObjects } from '../../../services/firebase'
 import constants from '../../../constants'
 
 const AdverseEvents = ({ history, state }) => {
    const { routes, services } = constants
    const { openfda } = services
+   const [cookies] = useCookies('session')
 
-   const { activeMenu, activeState } = state
-   if (activeMenu !== 'adverseEvents' || activeState !== 'get') {
-      history.push(routes.root)
-   }
+   // const { activeMenu, activeState } = state
+   // if (activeMenu !== 'adverseEvents' || activeState !== 'get') {
+   //    history.push(routes.root)
+   // }
 
    const [values, setValues] = useState({
-      startDate: '20191001',
+      startDate: moment()
+         .subtract(1, 'month')
+         .format('YYYYMMDD'),
       endDate: moment().format('YYYYMMDD'),
       rxcui: '208149',
    })
+   const [drugs, setDrugs] = useState([])
    const [adverseEvents, setAdverseEvents] = useState([])
    const [normalizedAdverseEvents, setNormalizedAdverseEvents] = useState({})
    const [loading, setLoading] = useState(false)
 
    useEffect(() => {
+      handleDrugsGet()
+   }, [])
+
+   useEffect(() => {
       setNormalizedAdverseEvents(scrubAdverseEvents())
       setLoading(false)
    }, [adverseEvents])
+
+   const handleDrugsGet = async () => {
+      if (!cookies.session) {
+         return
+      }
+
+      let drugs = []
+      let userSession = cookies.session
+      let user = await getFirestoreObjects({
+         collection: 'users',
+         where: [['uid', '==', userSession.uid]],
+      })
+
+      if (user[0].drugs) {
+         let userDrugs = user[0].drugs
+
+         Object.keys(userDrugs).map(key => {
+            drugs.push(userDrugs[key])
+         })
+      }
+      setDrugs(drugs)
+   }
 
    const scrubAdverseEvents = () => {
       if (_.pull(Object.keys(adverseEvents), 'meta').length !== 1) {
@@ -66,10 +98,10 @@ const AdverseEvents = ({ history, state }) => {
 
    const callGetAdverseEvents = async () => {
       setLoading(true)
-      const { startDate, endDate, rxcui } = values
+      const { startDate, endDate, drug } = values
       const endpoint =
          openfda.adverseEventsByRxcuiInDateRange.endpoint
-            .replace('%rxcui%', rxcui)
+            .replace('%rxcui%', drug)
             .replace('%startYYYYMMDD%', startDate)
             .replace('%endYYYYMMDD%', endDate) + '&limit=99'
       let adverseEventsResult = {}
@@ -80,11 +112,11 @@ const AdverseEvents = ({ history, state }) => {
                return []
             }
             adverseEventsResult.meta = response.meta
-            if (!adverseEventsResult[rxcui]) {
-               adverseEventsResult[rxcui] = []
+            if (!adverseEventsResult[drug]) {
+               adverseEventsResult[drug] = []
             }
             response.results.map(event => {
-               adverseEventsResult[rxcui].push(event)
+               adverseEventsResult[drug].push(event)
             })
             return adverseEventsResult
          })
@@ -94,17 +126,26 @@ const AdverseEvents = ({ history, state }) => {
       setAdverseEvents(adverseEventsResult)
    }
 
-   const handleOnChange = e => {
-      const { name, value } = e.target
-
-      setValues({
-         ...values,
-         [name]: value,
-      })
-   }
-
    const handleSearch = () => {
       callGetAdverseEvents()
+   }
+
+   const handleOnChange = (e, name) => {
+      if (name) {
+         if (name === 'startDate' || name === 'endDate') {
+            setValues({
+               ...values,
+               [name]: moment(e).format('YYYYMMDD'),
+            })
+         }
+      } else {
+         const { name, value } = e.target
+         console.log('e.target', e.target)
+         setValues({
+            ...values,
+            [name]: value,
+         })
+      }
    }
 
    const propsAdverseEventsPage = {
@@ -114,6 +155,7 @@ const AdverseEvents = ({ history, state }) => {
       },
       history,
       state: {
+         drugs,
          loading,
          adverseEvents: normalizedAdverseEvents,
          values,
