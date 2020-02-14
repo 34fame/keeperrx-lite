@@ -6,13 +6,13 @@ Have you ever gone to the doctor and was asked to fill out multiple pages of med
 
 **KeeperRx** helps you keep track of your medical life. Instead of filling out paperwork, simply share with your doctor directly from **KeeperRx**.
 
-**KeeperRx Lite** is a sandbox development project to help with the planning and development of **KeeperRx**. It will let users add medications and then research interactions and adverse events related to those medicines using the _National Library of Medicine_ and the _FDA_ as data sources.
+**KeeperRx Lite** is a development project to help with the planning and development of the flagship **KeeperRx**. It will let users add medications and then research interactions and adverse events related to those medicines using the _National Library of Medicine_ and the _FDA_ as data sources.
 
 ## Architecture
 
 **KeeperRx Lite** has been developed using _React_. _Google Firebase_ is used for authentication and database services. Free to the public API's provided by the _National Library of Medicine_ and the _FDA_ are used for gathering all information on medicines, interactions and adverse events.
 
-No user credentials are stored by **KeeperRx Lite**. All authentication is via the social authentication providers. The only information stored about users are the unique identifier provided by the social authentication provider and the references for these users to the medicines they have saved to their profile. Personal information such as name and email address or only kept in memory during the user's session and are provided by the social authentication providers.
+No user credentials are stored by **KeeperRx Lite**. All authentication is via the social authentication providers. The only information stored about users are email address, displayName and the URL to the photo provided by the social authentication provider and the references for these users to the medicines they have saved to their profile.
 
 ## Local Development
 
