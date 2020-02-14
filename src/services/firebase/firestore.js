@@ -79,7 +79,8 @@ const saveFirestoreObject = async props => {
          break
       case 'eventLogs':
          ref = eventLogsRef
-      // ref = ref.doc(saveObject.id)
+         // ref = ref.doc(saveObject.id)
+         break
       default:
    }
 

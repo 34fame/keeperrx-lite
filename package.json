@@ -28,6 +28,13 @@
    },
    "scripts": {
       "start": "react-scripts start",
+      "lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .",
+      "prettier": "prettier  --ignore-path .gitignore \"**/*.+(js|jsx|ts|tsx|json|css|html)\"",
+      "check-format": "yarn run prettier -- --list-different",
+      "check-types": "tsc",
+      "format": "yarn run prettier -- --write",
+      "validate": "yarn run check-types && yarn check-format && yarn lint && yarn build",
+      "flow": "flow",
       "build": "react-scripts build",
       "test": "react-scripts test",
       "eject": "react-scripts eject"
@@ -48,7 +55,14 @@
       ]
    },
    "devDependencies": {
-      "cross-env": "^7.0.0",
-      "prop-types": "^15.7.2"
+      "@typescript-eslint/eslint-plugin": "^2.19.2",
+      "@typescript-eslint/parser": "^2.19.2",
+      "eslint": "^6.8.0",
+      "eslint-config-prettier": "^6.10.0",
+      "eslint-plugin-prettier": "^3.1.2",
+      "husky": "^4.2.3",
+      "lint-staged": "^10.0.7",
+      "prettier": "^1.19.1",
+      "typescript": "^3.7.5"
    }
 }

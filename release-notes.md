@@ -1,5 +1,9 @@
 # Release Notes
 
+## Next
+
+-  Resolved lint errors
+
 ## 1.0.0
 
 ### Enhancements
