@@ -22,6 +22,9 @@
    },
    "plugins": ["react", "prettier"],
    "rules": {
+      "react/no-unescaped-entities": "warn",
+      "no-unused-vars": "warn",
+      "react/prop-types": "warn",
       "prettier/prettier": ["error"]
    },
    "settings": {
