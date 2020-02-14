@@ -1,6 +1,6 @@
 {
    "hooks": {
-      "pre-commit": "yarn run check-types && lint-staged",
-      "post-commit": "yarn run build && yarn run deploy"
+      "pre-commit": "yarn validate",
+      "post-commit": "yarn build && yarn deploy"
    }
 }

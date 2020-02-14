@@ -34,7 +34,7 @@
       "check-format": "yarn run prettier -- --list-different",
       "check-types": "tsc",
       "format": "yarn run prettier -- --write",
-      "validate": "npm-run-all --parallel check-types check-format lint build",
+      "validate": "npm-run-all --parallel check-types check-format lint",
       "build": "react-scripts build",
       "test": "react-scripts test",
       "eject": "react-scripts eject",

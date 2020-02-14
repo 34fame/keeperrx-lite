@@ -26,7 +26,7 @@ ReactDOM.render(
    <React.Fragment>
       <MuiThemeProvider theme={theme}>
          <MuiPickersUtilsProvider utils={MomentUtils}>
-            <CssBaselineX />
+            <CssBaseline />
             <BrowserRouter>
                <CookiesProvider>
                   <App />
