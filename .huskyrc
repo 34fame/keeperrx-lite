@@ -1,6 +1,6 @@
 {
    "hooks": {
       // "pre-commit": "yarn validate",
-      "post-commit": "yarn build && yarn deploy"
+      "post-commit": "git push && yarn build && yarn deploy"
    }
 }
