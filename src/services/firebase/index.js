@@ -3,6 +3,7 @@ import {
    saveFirestoreObject,
    deleteFirestoreObject,
 } from './firestore'
+
 import {
    firebaseAuth,
    facebookProvider,
@@ -10,7 +11,10 @@ import {
    googleProvider,
 } from './authentication'
 
+import { analytics } from './analytics'
+
 export {
+   analytics,
    firebaseAuth,
    facebookProvider,
    githubProvider,
